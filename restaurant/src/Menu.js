@@ -2,45 +2,31 @@ import React from "react";
 import './Menu.css'
 import SharedContext from './utility/context'; 
 
+import './Menu.css';
+
 function Menu() {
-    const { menuData, setMenuData } = React.useContext(SharedContext);
-
-    // Check if menuData exists and has categories
-    if (!menuData || !menuData[0] || !menuData[0].categories) {
-        return <div>Loading...</div>;
-    }
-
-    // Extract categories from menuData
+    const { menuData } = React.useContext(SharedContext); 
+    
     const categories = menuData[0].categories;
 
     return (
         <div id='Menu'>
-            <div className="menuItem">
-                <div>Combo meal special</div>
-                <div>One side one entree</div>
-                <div>Price</div>
-                <div className='menuItemPic'>pic</div> 
-            </div>
-
-            {/* Map through categories and their items */}
             {Object.keys(categories).map((sectionName) => {
                 const section = categories[sectionName];
                 return (
-                    <div key={sectionName}>
-                        <h2>{section.description}</h2>
+                    <div key={sectionName} className='menu-section'>
+                        <h2 className='section-title'>{section.description}</h2>
                         {Object.keys(section.items).map((itemName) => {
                             const item = section.items[itemName];
                             return (
-                                <div key={itemName}>
-                                    <h3>{itemName}</h3>
-                                    <p>Description: {item.description}</p>
-                                    <p>Price: {item.price}</p>
-                                    <p>Options:</p>
-                                    <ul>
-                                        {item.options["Spice level"].map((option, index) => (
-                                            <li key={index}>{option.description}</li>
-                                        ))}
-                                    </ul>
+                                <div key={itemName} className='menu-item'>
+                                    <div className="item-details">
+                                        <h3 className='item-name'>{itemName}</h3>
+                                        <p className='item-description'>Description: {item.description}</p>
+                                        <p className='item-price'>Price: ${item.price.toFixed(2)}</p>
+                                        <button>Add</button>
+                                    </div>
+                                    <img className='item-img' src='https://www.thesprucepets.com/thmb/AyzHgPQM_X8OKhXEd8XTVIa-UT0=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-145577979-d97e955b5d8043fd96747447451f78b7.jpg'/> 
                                 </div>
                             );
                         })}

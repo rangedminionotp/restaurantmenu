@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import SharedContext from "./utility/context";
 import Info from "./Info";
 import Menu from "./Menu"; 
+import TopBar from "./TopBar";
 function App() {
   const [menuData, setMenuData] = useState([]);
 
@@ -21,8 +22,7 @@ function App() {
   return (
     <SharedContext.Provider value = {{menuData, setMenuData}}>
     <div className="App">
-      <header className="App-header"> 
-      </header>
+      <TopBar />
       <Info />
       <Menu /> 
     </div>

@@ -1,1 +1,173 @@
-[{"categories":{"Noodles":{"description":"This is section 1","items":{"cool item name":{"description":"cool item description","price":10,"options":{"Spice level":[{"description":"Mild","default":true},{"description":"Medium"},{"description":"HotHOTHTO"}]},"description":"A delicious noodle dish"}}},"Dinners":{"description":"This is section 2","items":{}},"Fried":{"description":"This is section 3","items":{}}}}]
+[
+    {
+       "categories":{
+          "Noodles":{
+             "description":"This is section 1",
+             "items":{
+                "cool item name":{
+                   "description":"cool item description",
+                   "price":10,
+                   "options":{
+                      "Spice level":[
+                         {
+                            "description":"Mild",
+                            "default":true
+                         },
+                         {
+                            "description":"Medium"
+                         },
+                         {
+                            "description":"HotHOTHTO"
+                         }
+                      ]
+                   },
+                   "description":"A delicious noodle dish"
+                },
+                "cool item name2":{
+                    "description":"cool item description",
+                    "price":10,
+                    "options":{
+                       "Spice level":[
+                          {
+                             "description":"Mild",
+                             "default":true
+                          },
+                          {
+                             "description":"Medium"
+                          },
+                          {
+                             "description":"HotHOTHTO"
+                          }
+                       ]
+                    },
+                    "description":"A delicious noodle dish"
+                 },
+                 "cool item name3":{
+                    "description":"cool item description",
+                    "price":10,
+                    "options":{
+                       "Spice level":[
+                          {
+                             "description":"Mild",
+                             "default":true
+                          },
+                          {
+                             "description":"Medium"
+                          },
+                          {
+                             "description":"HotHOTHTO"
+                          }
+                       ]
+                    },
+                    "description":"A delicious noodle dish"
+                 },
+                 "cool item name4":{
+                    "description":"cool item description",
+                    "price":10,
+                    "options":{
+                       "Spice level":[
+                          {
+                             "description":"Mild",
+                             "default":true
+                          },
+                          {
+                             "description":"Medium"
+                          },
+                          {
+                             "description":"HotHOTHTO"
+                          }
+                       ]
+                    },
+                    "description":"A delicious noodle dish"
+                 },
+                 "cool item name":{
+                    "description":"cool item description",
+                    "price":10,
+                    "options":{
+                       "Spice level":[
+                          {
+                             "description":"Mild",
+                             "default":true
+                          },
+                          {
+                             "description":"Medium"
+                          },
+                          {
+                             "description":"HotHOTHTO"
+                          }
+                       ]
+                    },
+                    "description":"A delicious noodle dish"
+                 }
+             }
+          },
+          "Dinners":{
+             "description":"This is section 2",
+             "items":{
+                "cool item name":{
+                    "description":"cool item description",
+                    "price":10,
+                    "options":{
+                       "Spice level":[
+                          {
+                             "description":"Mild",
+                             "default":true
+                          },
+                          {
+                             "description":"Medium"
+                          },
+                          {
+                             "description":"HotHOTHTO"
+                          }
+                       ]
+                    },
+                    "description":"A delicious noodle dish"
+                 },
+                 "cool item name13":{
+                    "description":"cool item description",
+                    "price":10,
+                    "options":{
+                       "Spice level":[
+                          {
+                             "description":"Mild",
+                             "default":true
+                          },
+                          {
+                             "description":"Medium"
+                          },
+                          {
+                             "description":"HotHOTHTO"
+                          }
+                       ]
+                    },
+                    "description":"A delicious noodle dish"
+                 }
+             }
+          },
+          "Fried":{
+             "description":"This is section 3",
+             "items":{
+                "cool item wwwqname":{
+                    "description":"cool item description",
+                    "price":10,
+                    "options":{
+                       "Spice level":[
+                          {
+                             "description":"Mild",
+                             "default":true
+                          },
+                          {
+                             "description":"Medium"
+                          },
+                          {
+                             "description":"HotHOTHTO"
+                          }
+                       ]
+                    },
+                    "description":"A delicious noodle dish"
+                 }
+             }
+          }
+       }
+    }
+ ]

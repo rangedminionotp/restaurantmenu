@@ -1,7 +1,6 @@
 import React from "react";
-import './TopBar.css'
-import cart from "./images/shopping-bag.png";
-
+import './TopBar.css' 
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 function TopBar() {
 
     return (
@@ -12,7 +11,7 @@ function TopBar() {
                     <li><a href="#">About</a></li>
                     <li><a href="#">Contact</a></li>
                 </ul>
-                <a href="#" class="shopping-icon"><img src={cart} alt="Shopping Bag" /></a>
+                <a href="#" class="shopping-icon"><ShoppingCartIcon/></a>
             </nav>
         </div>
     );

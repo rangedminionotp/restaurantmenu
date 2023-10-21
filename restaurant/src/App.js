@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import SharedContext from "./utility/context";
-import Info from "./Info";
-import Menu from "./Menu"; 
-import TopBar from "./TopBar";
-function App() {
-  const [menuData, setMenuData] = useState([]);
+import Cart from "./Cart";
+import {BrowserRouter, Route, Routes, Navigate} from 'react-router-dom';
 
+import Home from "./Home";
+const AuthenticatedRoute = () => {
+  return <Navigate to='/' replace />;
+};
+
+function App() {
+  const [menuData, setMenuData] = useState([]); 
   useEffect(() => {
     // Fetch the JSON data from the server
     fetch("http://localhost:3001", { method: "GET" })
@@ -21,11 +25,21 @@ function App() {
 
   return (
     <SharedContext.Provider value = {{menuData, setMenuData}}>
-    <div className="App">
-      <TopBar />
-      <Info />
-      <Menu /> 
-    </div>
+      <BrowserRouter> 
+      <Routes>
+        <Route path='/' exact element={
+          <Home />
+        }/>
+        <Route path='/cart' exact element={
+          <Cart />
+         }/>
+         <Route path='*' element={
+            <AuthenticatedRoute>
+              <Home />
+            </AuthenticatedRoute>
+        } />
+      </Routes> 
+      </BrowserRouter>
     </SharedContext.Provider>
   );
 }

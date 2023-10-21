@@ -15,6 +15,7 @@ function Menu() {
 
     return (
         <div id='Menu'>
+            <section id="order"></section>
             {Object.keys(categories).map((sectionName) => {
                 const section = categories[sectionName];
                 return (

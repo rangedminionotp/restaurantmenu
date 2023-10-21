@@ -4,12 +4,14 @@ function Info() {
     return (
         <div id='info'>
             <div id='restName'>Datang Kitchen</div>
+            <section id="about"></section>
             <div className='restInfo'>
                 <div>Chinese Cruisine</div>
                 <div>Dine-In · Take-Out · Delivery</div>
                 <div>35041 Fremont Blvd, Fremont, CA 94536</div>
                 <div><a href="tel:5015651717">Phone: (501)565-1717</a></div>
             </div>
+            <section id="hours"></section>
             <div className="restHours">
                 <div id='hourTitle'>Business Hours</div>
                 <div>Monday: Closed</div>

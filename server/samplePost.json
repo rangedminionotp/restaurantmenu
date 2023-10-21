@@ -1,0 +1,26 @@
+
+
+add, edit or delete a category
+/editCategorie
+{
+    "categories": "Noodles",
+    "description": "A delicious noodle dish",
+    "delete": false
+}
+
+add, edit or delete an item
+/editItem
+{
+    "categories":  "Noodles",
+    "name": "cool item name",
+    "description": "A delicious noodle dish",
+    "price": 10.00,
+    "delete": false,
+    "options": {
+        "Spice level": [
+            {"content": "Mild","default": true},
+            {"content": "Medium"},
+            {"content": "Hot"}
+        ]
+    }
+}

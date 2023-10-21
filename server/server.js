@@ -1,6 +1,7 @@
 const fs = require('fs')
 const express = require('express')
 const bcrypt = require("bcrypt")
+const crypto = require("crypto")
 const app = express()
 const port = 3000
 
@@ -11,6 +12,86 @@ app.use(bodyParser.json())
 var dataFile = './data.json'
 var allData = require(dataFile)
 var users = require('./users.json')
+
+// use this to generate a salt and hash for a password...
+// for now, manually paste the salt and hash into the users.json file
+function genSaltAndHash(password) {
+  bcrypt.genSalt(10).then(salt => {
+    console.log('Salt: ', salt)
+    return bcrypt.hash(password, salt)
+  }).then(hash => {
+    console.log('Hash: ', hash)
+  }).catch(err => console.error(err.message))
+}
+
+function checkToken(token) {
+  for (var user in users) {
+    if (users[user].token == token) {
+
+      // if token is older than 1 week, decline it
+      if (Date.now() - users[user].tokenTime > 604800000) {
+        return false
+      }
+
+      return true
+    }
+  }
+  return false
+}
+
+function saveItemData() {
+  fs.writeFile(dataFile, JSON.stringify(allData), (error) => {
+    if (error) {
+      console.log(error)
+      return
+    }
+    console.log('Saved item data')
+  })
+}
+
+function saveUserData() {
+  fs.writeFile('./users.json', JSON.stringify(users), (error) => {
+    if (error) {
+      console.log(error)
+      return
+    }
+    console.log('Saved user data')
+  })
+}
+
+app.post('/order', (req, res) => {
+  const data = req.body
+
+  // make sure all data is there
+  if (!data.items) {
+    res.send('missing data')
+    return
+  }
+
+  // make sure all data is valid
+  if (data.items.length < 1) {
+    res.send('invalid data')
+    return
+  }
+
+  // convert items to a string
+  var items = ''
+  for (const itemName in data.items) {
+      const itemData = data.items[itemName];
+      
+      let itemText = `Item Name: ${itemName}\n`;
+      for (const attribute in itemData) {
+          itemText += `${attribute}: ${itemData[attribute]}\n`;
+      }
+      
+      items += itemText + '\n';
+  }
+
+  //TODO send email
+  console.log(items)
+
+  res.send('ok')
+})
 
 app.post('/auth', (req, res) => {
   const data = req.body
@@ -36,7 +117,16 @@ app.post('/auth', (req, res) => {
       return
     }
 
-    res.send('pog!')
+    var token = crypto.randomBytes(50).toString("base64url")
+
+    // save data to memory
+    users[data.username].token = token
+    users[data.username].tokenTime = Date.now()
+
+    // save data to file
+    saveUserData();
+
+    res.send(token)
   })
 
   
@@ -46,14 +136,20 @@ app.post('/delCategorie', (req, res) => {
   const data = req.body
 
   // make sure all data is there
-  if (!data.categories) {
+  if (!data.categories || !data.token) {
     res.send('missing data')
     return
   }
 
   // make sure all data is valid
-  if (data.categories.length < 1) {
+  if (data.categories.length < 1 || data.token.length < 1) {
     res.send('invalid data')
+    return
+  }
+
+  // check if token is valid
+  if (!checkToken(data.token)) {
+    res.send('invalid token')
     return
   }
 
@@ -67,14 +163,7 @@ app.post('/delCategorie', (req, res) => {
   delete allData.categories[data.categories]
 
   // save data to file
-  fs.writeFile(dataFile, JSON.stringify(allData), (error) => {
-    if (error) {
-      res.send('failed to save.. server issue')
-      console.log(error)
-      return
-    }
-    console.log('The file was saved!')
-  })
+  saveItemData();
 
   res.send('ok')
 })
@@ -83,14 +172,20 @@ app.post('/editCategorie', (req, res) => {
   const data = req.body
 
   // make sure all data is there
-  if (!data.categories || !data.description) {
+  if (!data.categories || !data.description || !data.token) {
     res.send('missing data')
     return
   }
 
   // make sure all data is valid
-  if (data.categories.length < 1 || data.description.length < 1) {
+  if (data.categories.length < 1 || data.description.length < 1 || data.token.length < 1) {
     res.send('invalid data')
+    return
+  }
+
+  // check if token is valid
+  if (!checkToken(data.token)) {
+    res.send('invalid token')
     return
   }
 
@@ -105,32 +200,29 @@ app.post('/editCategorie', (req, res) => {
   allData.categories[data.categories].description = data.description
 
   // save data to file
-  fs.writeFile(dataFile, JSON.stringify(allData), (error) => {
-    if (error) {
-      res.send('failed to save.. server issue')
-      console.log(error)
-      return
-    }
-    console.log('The file was saved!')
-  })
+  saveItemData();
 
   res.send('ok')
-
-
 })
 
 app.post('/delItem', (req, res) => {
   const data = req.body
   
   // make sure all data is there
-  if (!data.categories || !data.name) {
+  if (!data.categories || !data.name || !data.token) {
     res.send('missing data')
     return
   }
 
   // make sure all data is valid
-  if (data.categories.length < 1 || data.name.length < 1) {
+  if (data.categories.length < 1 || data.name.length < 1 || data.token.length < 1) {
     res.send('invalid data')
+    return
+  }
+
+  // check if token is valid
+  if (!checkToken(data.token)) {
+    res.send('invalid token')
     return
   }
 
@@ -150,14 +242,7 @@ app.post('/delItem', (req, res) => {
   delete allData.categories[data.categories].items[data.name]
 
   // save data to file
-  fs.writeFile(dataFile, JSON.stringify(allData), (error) => {
-    if (error) {
-      res.send('failed to save.. server issue')
-      console.log(error)
-      return
-    }
-    console.log('The file was saved!')
-  })
+  saveItemData();
 
   res.send('ok')
 })
@@ -166,14 +251,20 @@ app.post('/editItem', (req, res) => {
   const data = req.body
   
   // make sure all data is there
-  if (!data.categories || !data.name || !data.description || !data.price || !data.options) {
+  if (!data.categories || !data.name || !data.description || !data.price || !data.options || !data.token) {
     res.send('missing data')
     return
   }
 
   // make sure all data is valid
-  if (data.categories.length < 1 || data.name.length < 1 || data.description.length < 1 || data.price < 0 || data.options.length < 1) {
+  if (data.categories.length < 1 || data.name.length < 1 || data.description.length < 1 || data.price < 0 || data.options.length < 1 || data.token.length < 1) {
     res.send('invalid data')
+    return
+  }
+
+  // check if token is valid
+  if (!checkToken(data.token)) {
+    res.send('invalid token')
     return
   }
 
@@ -189,14 +280,7 @@ app.post('/editItem', (req, res) => {
   allData.categories[data.categories].items[data.name].options = data.options
 
   // save data to file
-  fs.writeFile(dataFile, JSON.stringify(allData), (error) => {
-    if (error) {
-      res.send('failed to save.. server issue')
-      console.log(error)
-      return
-    }
-    console.log('The file was saved!')
-  })
+  saveItemData();
 
   res.send('ok')
 })

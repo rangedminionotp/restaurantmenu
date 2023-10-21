@@ -1,6 +1,1 @@
-{
-    "mark": {
-        "password": "$2b$10$t7oxiwchWGHa/B9w0AzrYOp6P6xQDaMcrLs0Coo/uIfnVWzRS.jWu",
-        "salt": "$2b$10$t7oxiwchWGHa/B9w0AzrYO"
-    }
-}
+{"mark":{"password":"$2b$10$t7oxiwchWGHa/B9w0AzrYOp6P6xQDaMcrLs0Coo/uIfnVWzRS.jWu","salt":"$2b$10$t7oxiwchWGHa/B9w0AzrYO","token":"PJUm-btEdBATFXm_bW6xmqBgJ53ejDGXyDrWutAz1dB3TIvknqEA-wWsWaqsQmRPCUg","tokenTime":1697871660515}}

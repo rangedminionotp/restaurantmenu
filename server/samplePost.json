@@ -1,26 +1,51 @@
-
-
-add, edit or delete a category
-/editCategorie
+/auth
 {
-    "categories": "Noodles",
-    "description": "A delicious noodle dish",
-    "delete": false
+    "username": "username",
+    "password": "password"
 }
 
-add, edit or delete an item
+/delItem
+{
+    "token": "",
+    "categories":  "Noodles",
+    "name": "cool item name"
+}
+
+/delCategorie
+{
+    "token": "",
+    "categories": "Noodles"
+}
+
+/editCategorie
+{
+    "token": "",
+    "categories": "Noodles",
+    "description": "A delicious noodle dish",
+}
+
 /editItem
 {
+    "token": "",
     "categories":  "Noodles",
     "name": "cool item name",
     "description": "A delicious noodle dish",
     "price": 10.00,
-    "delete": false,
     "options": {
         "Spice level": [
             {"content": "Mild","default": true},
             {"content": "Medium"},
             {"content": "Hot"}
         ]
+    }
+}
+
+/order
+{
+    "items": {
+        "cool item name": { "quantity": 2, "Spice level": "Mild", "Special instructions": "No onions" },
+        "item1": { "quantity": 2, "Spice level": "Mild", "Special instructions": "No onions" },
+        "item2": { "quantity": 1, "Spice level": "Medium", "Extra": "Extra cheese", "Special instructions": "Extra onions" },
+        "item3": { "quantity": 3, "Spice level": "Spicy", "Special instructions": "No tomatoes" }
     }
 }

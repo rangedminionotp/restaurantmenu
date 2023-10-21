@@ -1,0 +1,31 @@
+#Menu {
+    background-color: #f8f8f8;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  .menuItem {
+    margin: 10px 0;
+  }
+  
+  .menuItem > div {
+    margin: 5px 0;
+  }
+  
+  .menuItem div:first-child {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .menuItem div:nth-child(2) {
+    font-size: 18px;
+    color: #555;
+  }
+  
+  .menuItem div:nth-child(3) {
+    font-size: 20px;
+    color: #007BFF;
+  }

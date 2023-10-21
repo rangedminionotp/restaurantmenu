@@ -3,42 +3,42 @@
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 20px;
-  max-width: 500px;
+  max-width: inherit;
   margin: 0 auto;
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 #restName {
-  font-size: 40px; /* Increased font size */
+  font-size: 40px; 
   font-weight: bold;
   margin: 10px 0;
 }
 
 .restInfo {
   margin: 10px 0;
-  font-size: 20px; /* Increased font size */
+  font-size: 20px; 
 }
 
 .restInfo > div {
-  margin: 10px 0; /* Increased margin */
+  margin: 10px 0; 
 }
 
 .restHours {
   background-color: #fff;
   border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 20px; /* Increased padding */
+  border-radius: 8px;  
+  padding: 20px; 
   margin-top: 20px;
 }
 
 #hourTitle {
-  font-size: 24px; /* Increased font size */
+  font-size: 24px; 
   font-weight: bold;
   margin-bottom: 10px;
 }
 
 .restHours > div {
-  font-size: 20px; /* Increased font size */
-  margin: 10px 0; /* Increased margin */
+  font-size: 20px; 
+  margin: 10px 0; 
 }

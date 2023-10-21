@@ -1,7 +1,6 @@
 import React from "react";
 import './Menu.css'
-import SharedContext from './utility/context';
-import React from 'react';
+import SharedContext from './utility/context'; 
 function Menu(){
     const {menuData, setMenuData} = React.useContext(SharedContext);
     console.log(menuData)
@@ -12,7 +11,7 @@ function Menu(){
                 <div>One side one entree</div>
                 <div>Price</div>
                 <div className='menuItemPic'>pic</div> 
-                {menuData.map(item => <div>{item.name}</div>)}
+                {menuData.categories}
             </div>
         </div>
     )

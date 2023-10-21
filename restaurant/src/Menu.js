@@ -15,6 +15,7 @@ function Menu() {
 
     return (
         <div id='Menu'>
+            <div id='MenuTitle'>Menu</div>
             {Object.keys(categories).map((sectionName) => {
                 const section = categories[sectionName];
                 return (
@@ -31,7 +32,7 @@ function Menu() {
                                             <h3 className='item-name'>{itemName}</h3>
                                             <p className='item-description'>Description: {item.description}</p>
                                             <p className='item-price'>Price: ${item.price.toFixed(2)}</p>
-                                            <button className="addBtn">Add</button>
+                                            <button className='add-to-cart-button'>Add to Cart</button>
                                         </div>
                                     </div>
                                 );

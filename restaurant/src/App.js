@@ -26,19 +26,19 @@ function App() {
   return (
     <SharedContext.Provider value = {{menuData, setMenuData}}>
       <BrowserRouter> 
-      <Routes>
-        <Route path='/' exact element={
-          <Home />
-        }/>
-        <Route path='/cart' exact element={
-          <Cart />
-         }/>
-         <Route path='*' element={
-            <AuthenticatedRoute>
-              <Home />
-            </AuthenticatedRoute>
-        } />
-      </Routes> 
+        <Routes>
+          <Route path='/' exact element={
+            <Home />
+          }/>
+          <Route path='/cart' exact element={
+            <Cart />
+          }/>
+          <Route path='*' element={
+              <AuthenticatedRoute>
+                <Home />
+              </AuthenticatedRoute>
+          } />
+        </Routes> 
       </BrowserRouter>
     </SharedContext.Provider>
   );

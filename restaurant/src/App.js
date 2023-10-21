@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Info from "./Info";
-
+import Menu from "./Menu"; 
 function App() {
   const [jsonData, setJsonData] = useState(null);
 
@@ -30,3 +30,4 @@ function App() {
 }
 
 export default App;
+ 

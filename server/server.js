@@ -2,6 +2,7 @@ const fs = require('fs')
 const express = require('express')
 const bcrypt = require("bcrypt")
 const crypto = require("crypto")
+var nodemailer = require('nodemailer')
 const app = express()
 const port = 3001
 
@@ -12,6 +13,18 @@ app.use(bodyParser.json())
 var dataFile = './data.json'
 var allData = require(dataFile)
 var users = require('./users.json')
+
+// gmail setup
+/*
+  1. enable 2FA
+  2. generate password from here https://myaccount.google.com/apppasswords
+  3. paste gmail / generated password into gmail.json
+*/
+var gmailUser = require('./gmail.json')
+var transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: gmailUser.login
+});
 
 // use this to generate a salt and hash for a password...
 // for now, manually paste the salt and hash into the users.json file
@@ -79,7 +92,7 @@ app.post('/order', (req, res) => {
   for (const itemName in data.items) {
       const itemData = data.items[itemName];
       
-      let itemText = `Item Name: ${itemName}\n`;
+      let itemText = `${itemName}\n`;
       for (const attribute in itemData) {
           itemText += `${attribute}: ${itemData[attribute]}\n`;
       }
@@ -87,10 +100,24 @@ app.post('/order', (req, res) => {
       items += itemText + '\n';
   }
 
-  //TODO send email
-  console.log(items)
+  //send email
+  var mailOptions = {
+    from: gmailUser.login.user,
+    to: gmailUser.sendto,
+    subject: 'Sending Email using Node.js',
+    text: items
+  };
 
-  res.send('ok')
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error('Error sending email:', error);
+      res.send('failed to send email') // TODO notify user to call store
+    } else {
+      console.log('Email sent:', info.messageId);
+      res.send('ok')
+    }
+  });
+
 })
 
 app.post('/auth', (req, res) => {

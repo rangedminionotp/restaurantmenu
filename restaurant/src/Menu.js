@@ -1,6 +1,7 @@
 import './Menu.css'
-
+import SharedContext from './utility/context';
 function Menu(){
+    const {page, setPage} = React.useContext(SharedContext);
     return (
         <div id='Menu'>
             <div className="menuItem">

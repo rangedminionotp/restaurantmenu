@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import SharedContext from "./utility/context";
 import Info from "./Info";
 import Menu from "./Menu"; 
 function App() {
@@ -18,14 +19,17 @@ function App() {
   }, []);
 
   return (
+    <SharedContext.Provider value = {{jsonData, setJsonData}}>
     <div className="App">
       <header className="App-header"> 
       </header>
       <Info />
+      <Menu />
       {jsonData && (
         <div>{JSON.stringify(jsonData, null, 2)} </div>
       )}
     </div>
+    </SharedContext.Provider>
   );
 }
 

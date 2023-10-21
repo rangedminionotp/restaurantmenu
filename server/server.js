@@ -3,7 +3,7 @@ const express = require('express')
 const bcrypt = require("bcrypt")
 const crypto = require("crypto")
 const app = express()
-const port = 3000
+const port = 3001
 
 var cors = require('cors')
 app.use(cors())

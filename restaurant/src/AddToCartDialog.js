@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SharedContext from './utility/context';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -10,12 +10,24 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import './AddToCartDialog.css';
+import { Divider } from '@mui/material';
 
 function AddToCartDialog({ onClose }) {
-    const { isDialogOpen, selectedItem, options } = React.useContext(SharedContext);
+    const { isDialogOpen, selectedItem, menuData } = React.useContext(SharedContext);
     const [selectedSpice, setSelectedSpice] = useState('');
+    const [selectedMeat, setSelectedMeat] = useState('');
 
-    if (selectedItem) { 
+    useEffect(() => {
+        if (selectedItem) {
+            setSelectedSpice('');
+            setSelectedMeat('');
+        }
+    }, [selectedItem]);
+
+    if (selectedItem && menuData) {
+        const spiceOptions = menuData.options.SPICE.values;
+        const meatOptions = menuData.options.MEAT.values;
+
         return (
             <Dialog
                 open={isDialogOpen}
@@ -24,6 +36,7 @@ function AddToCartDialog({ onClose }) {
                 aria-describedby="alert-dialog-description"
                 id="add-to-cart-dialogue"
                 sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 } }}
+                
             >
                 <DialogTitle id="alert-dialog-title">
                     {selectedItem.name}
@@ -38,16 +51,38 @@ function AddToCartDialog({ onClose }) {
                     <RadioGroup
                         value={selectedSpice}
                         onChange={(e) => setSelectedSpice(e.target.value)}
-                    >
-                        {options.values &&
-                            Object.keys(options.values).map((spiceLevel) => (
-                                <FormControlLabel
-                                    key={spiceLevel}
-                                    value={spiceLevel}
-                                    control={<Radio />}
-                                    label={spiceLevel}
-                                />
-                            ))}
+                    >   
+                        {menuData.options.SPICE.description}
+                        {Object.keys(spiceOptions).map((spiceLevel) => (
+                            <div>
+                            <FormControlLabel
+                                key={spiceLevel}
+                                value={spiceLevel}
+                                control={<Radio />}
+                                label={spiceLevel}
+                            />
+                            <Divider />
+                            </div>
+                        ))}
+                        
+                    </RadioGroup>
+
+                    <RadioGroup
+                        value={selectedMeat}
+                        onChange={(e) => setSelectedMeat(e.target.value)}
+                    >   
+                        {menuData.options.MEAT.description}
+                        {Object.keys(meatOptions).map((meatType) => (
+                            <div>
+                            <FormControlLabel
+                                key={meatType}
+                                value={meatType}
+                                control={<Radio />}
+                                label={meatType}
+                            />
+                            <Divider />
+                            </div>
+                        ))}
                     </RadioGroup>
                 </DialogContent>
                 <DialogActions>
@@ -59,6 +94,7 @@ function AddToCartDialog({ onClose }) {
             </Dialog>
         );
     }
+    return null;  
 }
 
 export default AddToCartDialog;

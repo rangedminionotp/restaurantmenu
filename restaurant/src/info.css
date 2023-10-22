@@ -42,3 +42,11 @@
   font-size: 20px; 
   margin: 10px 0; 
 }
+
+#about {
+  scroll-margin-top: 80px; 
+}
+
+#hours {
+  scroll-margin-top: 80px; 
+}

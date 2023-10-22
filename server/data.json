@@ -1,4 +1,5 @@
 {
+   "tax": 0.10,
    "categories":{
       "bEWCZRv0vl1X":{
          "name": "Noodles",
@@ -66,12 +67,14 @@
          "name": "Spice Level",
          "description": "How spicy do you want it?",
          "multipleChoice": false,
+         "required": true,
          "values": {"Mild": 0,"Medium": 0,"Hot": 1}
       },
       "MEAT": {
          "name": "Meat",
          "description": "What kind of meat do you want?",
          "multipleChoice": false,
+         "required": true,
          "values": {"Chicken": 0,"Beef": 1,"Pork": 0}
       }
    }

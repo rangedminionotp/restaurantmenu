@@ -2,9 +2,20 @@ import React from "react";
 import TopBar from "./TopBar";
 import SharedContext from './utility/context';
 import './Cart.css';
+import CartItems from "./CartItems";
+import CartItemContext from "./utility/CartItemContext";
 
-function Cart(){
+function Cart() {
+    const [cartItems, setCartItems] = React.useState([]);
     const { menuData } = React.useContext(SharedContext);
+
+    React.useEffect(() => {
+        // Fetch the cart items from localStorage
+        var storedCartItems = localStorage.getItem('cart');
+        if (!storedCartItems) storedCartItems = "[]";
+        const parsedCartItems = JSON.parse(storedCartItems);
+        setCartItems(parsedCartItems);
+    }, []);
 
     if (!menuData || !menuData.categories) {
         return <div className="menu">Loading...</div>;
@@ -12,59 +23,59 @@ function Cart(){
 
     const categories = menuData.categories;
     const options = menuData.options;
+    const tax = menuData.tax;
+    
+    const submitOrder = () => {
+       
+    }
 
-    var cartItems = localStorage.getItem('cart');
-    if (!cartItems) cartItems = "[]";
-    cartItems = JSON.parse(cartItems);
+    const getSubtotal = () => {
+        var subtotal = 0;
+        for (const itemData of cartItems) {
+            var item = categories[itemData.categorieID].items[itemData.itemID]
+            var totalItemPrice = item.price * itemData.quantity
 
-    return (
-        <div id='cart'>
-            <TopBar />
-
-            {
-                cartItems.map((itemData, index) => {
-                    var item = categories[itemData.categorieID].items[itemData.itemID]
-                    var totalItemPrice = item.price
-                    var itemOptions = itemData.options
-                    var itemOptionsList = [];
-
-                    for (const option in itemOptions) {
-                        for(const selection of itemOptions[option]) {
-                            var name = options[option].name
-                            var price = options[option].values[selection]
-                            totalItemPrice += price
-
-                            var priceStr = `$${price}`;
-                            if (price == 0) priceStr = "" // don't show $0
-
-                            itemOptionsList.push(`${name}: ${selection} ${priceStr}`);
-                        }
-                    }
-
-                    return (
-                        <div className='cart-item' key={index}>
-  <div className='cart-item-details'>
-    <div className='cart-item-name'>{item.name}</div>
-    <div className='cart-item-options'>
-      {itemOptionsList.map((option) => (
-        <div key={option}>{option}</div>
-      ))}
-    </div>
-  </div>
-  <div className='cart-item-actions'>
-    <button onClick={() => console.log("-1")}>-</button>
-    <span>{itemData.count}</span>
-    <button onClick={() => console.log("+1")}>+</button>
-    <button onClick={() => console.log(itemData)}>Edit</button>
-    <button onClick={() => console.log(itemData)}>Delete</button>
-  </div>
-  <div className='cart-item-price'>${totalItemPrice}</div>
-</div>
-                    )
-                })
+            for (const option in itemData.options) {
+                for(const selection of itemData.options[option]) {
+                    var price = options[option].values[selection]
+                    totalItemPrice += price
+                }
             }
 
+            subtotal += totalItemPrice
+        }
+
+        return subtotal;
+    }
+
+    const getTax = () => {
+      return getSubtotal() * tax;
+    }
+
+    const getTotal = () => {
+        return getTax() + getSubtotal();
+    }
+
+    return (
+        <CartItemContext.Provider value={{ cartItems, setCartItems }}>
+        <div id='cart'>
+            <TopBar />
+            <CartItems />
+            <div className="order-summary">
+                <div>Subtotal: ${getSubtotal()}</div>
+                <div>Tax: ${getTax()}</div>
+                <div>Total: ${getTotal()}</div>
+                <h3>Please play in person</h3>
+            </div>
+
+            <div className="order-details">
+                <input type="text" placeholder="Name" />
+                <input type="tel" placeholder="Phone Number" />
+                <button onClick={submitOrder}>Send Order</button>
+            </div>
+
         </div>
+        </CartItemContext.Provider>
     )
 }
 

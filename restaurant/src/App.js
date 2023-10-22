@@ -10,6 +10,8 @@ const AuthenticatedRoute = () => {
 
 function App() {
   const [menuData, setMenuData] = useState([]); 
+  const [isDialogOpen, setIsDialogOpen] = useState(false); // Unconditionally set the state
+  const [selectedItem, setSelectedItem] = useState(null); // Unconditionally set the state
   useEffect(() => {
     // Fetch the JSON data from the server
     fetch("http://localhost:3001", { method: "GET" })
@@ -24,7 +26,7 @@ function App() {
   }, []);
 
   return (
-    <SharedContext.Provider value = {{menuData, setMenuData}}>
+    <SharedContext.Provider value = {{menuData, setMenuData, isDialogOpen, setIsDialogOpen, selectedItem, setSelectedItem}}>
       <BrowserRouter> 
         <Routes>
           <Route path='/' exact element={

@@ -1,0 +1,25 @@
+.dialog-title {
+    background-color: blue; /* Example background color */
+    color: white; /* Example text color */
+  }
+  
+  .dialog-content {
+    padding: 16px;
+  }
+  
+  .item-description {
+    color: gray;
+  }
+  
+  .item-price {
+    font-weight: bold;
+    color: green;
+  }
+  
+  .dialog-actions {
+    justify-content: space-between;
+  }
+
+#add-to-cart-dialogue{
+    width: 400px
+}

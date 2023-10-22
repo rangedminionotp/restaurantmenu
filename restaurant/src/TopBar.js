@@ -11,7 +11,7 @@ function TopBar() {
                     <li><a href="/#hours">Hours</a></li>
                     <li><a href="/#order">Order</a></li>
                 </ul>
-                <a href="#" class="shopping-icon"><ShoppingCartIcon/></a>
+                <a href="#" className="shopping-icon"><ShoppingCartIcon/></a>
             </nav>
         </div>
     );

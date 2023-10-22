@@ -38,13 +38,13 @@
 
 /order
 [
-    { "categorieID": "fwNv9761JH3b", "itemID": "bEWCZRv0vl1X", "quantity": 2, "instructions": "No onions", "options": { "SPICE": ["MILD"] } },
-    { "categorieID": "fwNv9761JH3b", "itemID": "bEWCZRv0vl1X", "quantity": 2, "instructions": "No onions", "options": { "SPICE": ["MILD"] } }
+    { "categorieID": "bEWCZRv0vl1X", "itemID": "fwNv9761JH3b", "quantity": 1, "instructions": "No onions", "options": { "SPICE": ["Mild", "Hot"] } },
+    { "categorieID": "bEWCZRv0vl1X", "itemID": "gtKbrwKtisQv", "quantity": 2, "instructions": "No onions", "options": { "SPICE": ["Mild"] } }
 ]
 
 localstorage.cart
 price is for 1 item, it is multiplied at checkout
 [
-    { "categorieID": "fwNv9761JH3b", "itemID": "bEWCZRv0vl1X", "quantity": 2, "instructions": "No onions", "options": { "SPICE": ["MILD"] } },
-    { "categorieID": "fwNv9761JH3b", "itemID": "bEWCZRv0vl1X", "quantity": 2, "instructions": "No onions", "options": { "SPICE": ["MILD"] } }
+    { "categorieID": "bEWCZRv0vl1X", "itemID": "fwNv9761JH3b", "quantity": 1, "instructions": "No onions", "options": { "SPICE": ["Mild", "Hot"] } },
+    { "categorieID": "bEWCZRv0vl1X", "itemID": "gtKbrwKtisQv", "quantity": 2, "instructions": "No onions", "options": { "SPICE": ["Mild"] } }
 ]

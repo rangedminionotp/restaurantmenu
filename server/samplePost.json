@@ -7,45 +7,44 @@
 /delItem
 {
     "token": "",
-    "categories":  "Noodles",
-    "name": "cool item name"
+    "categorieID": "fwNv9761JH3b",
+    "itemID": "bEWCZRv0vl1X",
 }
 
 /delCategorie
 {
     "token": "",
-    "categories": "Noodles"
+    "categorieID": "bEWCZRv0vl1X",
 }
 
 /editCategorie
 {
     "token": "",
-    "categories": "Noodles",
+    "id": "bEWCZRv0vl1X",
+    "name": "Noodles",
     "description": "A delicious noodle dish",
 }
 
 /editItem
 {
     "token": "",
-    "categories":  "Noodles",
+    "categorieID": "fwNv9761JH3b",
+    "itemID": "bEWCZRv0vl1X",
     "name": "cool item name",
     "description": "A delicious noodle dish",
     "price": 10.00,
-    "options": {
-        "Spice level": [
-            {"content": "Mild","default": true},
-            {"content": "Medium"},
-            {"content": "Hot"}
-        ]
-    }
+    "options": ["SPICE"]
 }
 
 /order
-{
-    "items": {
-        "cool item name": { "quantity": 2, "Spice level": "Mild", "Special instructions": "No onions" },
-        "item1": { "quantity": 2, "Spice level": "Mild", "Special instructions": "No onions" },
-        "item2": { "quantity": 1, "Spice level": "Medium", "Extra": "Extra cheese", "Special instructions": "Extra onions" },
-        "item3": { "quantity": 3, "Spice level": "Spicy", "Special instructions": "No tomatoes" }
-    }
-}
+[
+    { "categorieID": "fwNv9761JH3b", "itemID": "bEWCZRv0vl1X", "quantity": 2, "instructions": "No onions", "options": { "SPICE": ["MILD"] } },
+    { "categorieID": "fwNv9761JH3b", "itemID": "bEWCZRv0vl1X", "quantity": 2, "instructions": "No onions", "options": { "SPICE": ["MILD"] } }
+]
+
+localstorage.cart
+price is for 1 item, it is multiplied at checkout
+[
+    { "categorieID": "fwNv9761JH3b", "itemID": "bEWCZRv0vl1X", "quantity": 2, "instructions": "No onions", "options": { "SPICE": ["MILD"] } },
+    { "categorieID": "fwNv9761JH3b", "itemID": "bEWCZRv0vl1X", "quantity": 2, "instructions": "No onions", "options": { "SPICE": ["MILD"] } }
+]

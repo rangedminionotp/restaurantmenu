@@ -15,7 +15,7 @@ function Menu() {
 
     return (
         <div id='Menu'>
-            <section id="order"></section>
+            <div id='order'>
             <div id='MenuTitle'>Menu</div>
             {Object.keys(categories).map((sectionName) => {
                 const section = categories[sectionName];
@@ -42,6 +42,7 @@ function Menu() {
                     </div>
                 );
             })}
+            </div>
         </div>
     );
 }

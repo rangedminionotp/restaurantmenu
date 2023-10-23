@@ -33,6 +33,8 @@ function Menu() {
                             <div className='menu-items-container'>
                                 {Object.keys(section.items).map((itemID) => {
                                     const item = section.items[itemID];
+                                    item.itemID = itemID;
+                                    item.categorieID = sectionName; 
                                     return (
                                         <div key={itemID} className='menu-item'>
                                              <img className='item-img'

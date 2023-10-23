@@ -97,6 +97,26 @@ function AddToCartDialog({ onClose }) {
         onClose();
     };
 
+    const handleAddCart = (item) => {
+        const cartItem = [
+            {
+              'categorieID': item.categorieID,
+              'itemID': item.itemID,
+              'quantity': quantity,
+              'instructions': userPreferences,
+              'options': {
+                'SPICES': selectedSpice,
+                'MEAT': selectedMeat
+              }
+            }
+          ];
+          
+        const cartItemJSON = JSON.stringify(cartItem);  
+        localStorage.setItem('cart', cartItemJSON);
+        resetState();
+        onClose();
+    }
+
     if (selectedItem && menuData && menuData.options) {
         const spiceOptions = menuData.options.SPICE.values;
         const meatOptions = menuData.options.MEAT.values;
@@ -178,7 +198,7 @@ function AddToCartDialog({ onClose }) {
                     <button onClick={() => handleCancel()} autoFocus>
                         Cancel
                     </button>
-                    <button className='add-to-cart-btn' onClick={() => handleCancel()} disabled={isAgreeDisabled}>
+                    <button className='add-to-cart-btn' onClick={() => handleAddCart(selectedItem)} disabled={isAgreeDisabled}>
                         Add To Cart - ${cost}
                     </button>
                 </DialogActions>

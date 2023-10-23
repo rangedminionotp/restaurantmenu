@@ -30,23 +30,32 @@ function Cart() {
     }
 
     const getSubtotal = () => {
-        var subtotal = 0;
-        for (const itemData of cartItems) {
-            var item = categories[itemData.categorieID].items[itemData.itemID]
-            var totalItemPrice = item.price * itemData.quantity
+    var subtotal = 0;
+    for (const itemData of cartItems) {
+        const category = categories[itemData.categorieID];
+        const item = category ? category.items[itemData.itemID] : null;
+
+        if (item) {
+            var totalItemPrice = item.price * itemData.quantity;
 
             for (const option in itemData.options) {
-                for(const selection of itemData.options[option]) {
-                    var price = options[option].values[selection]
-                    totalItemPrice += price
+                if (options && options[option]) {
+                    for (const selection of itemData.options[option]) {
+                        const optionValues = options[option].values;
+                        if (optionValues && optionValues[selection]) {
+                            var price = optionValues[selection];
+                            totalItemPrice += price;
+                        }
+                    }
                 }
             }
 
-            subtotal += totalItemPrice
+            subtotal += totalItemPrice;
         }
-
-        return subtotal;
     }
+
+    return subtotal;
+}
 
     const getTax = () => {
       return getSubtotal() * tax;
@@ -59,8 +68,7 @@ function Cart() {
     return (
         <CartItemContext.Provider value={{ cartItems, setCartItems }}>
         <div id='cart'>
-            <TopBar />
-            <CartItems />
+            <TopBar /> 
             <div className="order-summary">
                 <div>Subtotal: ${getSubtotal()}</div>
                 <div>Tax: ${getTax()}</div>

@@ -25,9 +25,7 @@ function AddToCartDialog({ onClose }) {
         // Check if selectedItem is not null
         if (selectedItem) {
             // Calculate the cost based on the selected options
-            setIsAgreeDisabled(!areAllRequiredChoicesChecked());
-            console.log(selectedItem);
-            setSelectedOptions(selectedItem.options)
+            setIsAgreeDisabled(!areAllRequiredChoicesChecked());   
             // Calculate the cost based on the selected options and quantity
             let newCost = selectedItem.price;
     
@@ -53,6 +51,8 @@ function AddToCartDialog({ onClose }) {
 
     const handleOptionChange = (optionKey, value) => {
         // Update the selected options with the new value
+        console.log(optionKey)
+        console.log(value)
         setSelectedOptions({
             ...selectedOptions,
             [optionKey]: value,
@@ -106,8 +106,7 @@ function AddToCartDialog({ onClose }) {
         currentCartItems.push(newCartItem);
      
         const updatedCartItemsJSON = JSON.stringify(currentCartItems); 
-        localStorage.setItem('cart', updatedCartItemsJSON);
-    
+        localStorage.setItem('cart', updatedCartItemsJSON); 
         resetState();
         onClose();
     }
@@ -137,7 +136,7 @@ function AddToCartDialog({ onClose }) {
                     <div key={optionKey}>
                         <div className='radio-group-label'>{menuData.options[optionKey].description} {menuData.options[optionKey].required && '(Required)'}</div>
                         <RadioGroup
-                                value={selectedItem.options[optionKey] || ''} // Set the selected value
+                                value={selectedOptions[optionKey]} // Set the selected value
                                 onChange={(e) => handleOptionChange(optionKey, e.target.value)} // Call handleOptionChange on change
                             >
                         {Object.keys(menuData.options[optionKey].values).map((value, index) => (

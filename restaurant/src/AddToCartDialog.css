@@ -1,25 +1,32 @@
-.dialog-title {
-    background-color: blue; /* Example background color */
-    color: white; /* Example text color */
-  }
-  
-  .dialog-content {
-    padding: 16px;
-  }
-  
-  .item-description {
-    color: gray;
-  }
-  
-  .item-price {
-    font-weight: bold;
-    color: green;
-  }
-  
-  .dialog-actions {
-    justify-content: space-between;
-  }
+.item-img {
+  max-width: 100%;
+  height: auto;
+}
 
-#add-to-cart-dialogue{
-    width: 400px
+.item-description {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.item-price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #00796B;
+}
+
+.radio-group-label {
+  font-weight: bold;
+}
+
+.radio-button {
+  margin-top: 5px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.decrementdisabled{
+  cursor: not-allowed;
 }

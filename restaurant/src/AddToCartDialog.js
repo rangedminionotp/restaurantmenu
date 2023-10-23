@@ -20,14 +20,27 @@ function AddToCartDialog({ onClose }) {
     const [cost, setCost] = useState(0);
     const [spiceCost, setSpiceCost] = useState(0);
     const [meatCost, setMeatCost] = useState(0);
+    const [quantity, setQuantity] = useState(1);  
+
     useEffect(() => {
         if (selectedItem) {
             setSelectedSpice('');
             setSelectedMeat('');
-            setIsAgreeDisabled(true)
-            setCost(selectedItem.price.toFixed(2))
+            setIsAgreeDisabled(true);
+            setCost(selectedItem.price.toFixed(2));
         }
     }, [selectedItem]);
+
+    // Function to reset all state variables
+    const resetState = () => {
+        setSelectedSpice('');
+        setSelectedMeat('');
+        setIsAgreeDisabled(true);
+        setCost(0);
+        setSpiceCost(0);
+        setMeatCost(0);
+        setQuantity(1);
+    };
 
     const handleSelectedSpiceChange = (e) => {
         setSelectedSpice(e.target.value);
@@ -36,24 +49,30 @@ function AddToCartDialog({ onClose }) {
         recalculateTotalCost(spiceValue, meatCost);
         checkAgreeButtonState(e.target.value, selectedMeat);
     };
-    
+
     const handleSelectedMeatChange = (e) => {
         setSelectedMeat(e.target.value);
         const meatValue = menuData.options.MEAT.values[e.target.value];
         setMeatCost(meatValue);
         recalculateTotalCost(spiceCost, meatValue);
         checkAgreeButtonState(selectedSpice, e.target.value);
-    };
-    
-    const recalculateTotalCost = (spice, meat) => {
-        const newTotalCost = parseFloat(selectedItem.price) + parseFloat(spice) + parseFloat(meat);
+    }; 
+
+    const recalculateTotalCost = (spice, meat) => { 
+        const newTotalCost = (parseFloat(selectedItem.price) + parseFloat(spice) + parseFloat(meat)) * quantity;
         setCost(newTotalCost.toFixed(2));
-    };
+    }; 
 
     const checkAgreeButtonState = (spice, meat) => { 
         if (menuData && menuData.options && menuData.options.SPICE && menuData.options.MEAT) {
             setIsAgreeDisabled(!(spice && meat));
         }
+    };
+
+    // Function to handle the "Cancel" button
+    const handleCancel = () => {
+        resetState();
+        onClose();
     };
 
     if (selectedItem && menuData && menuData.options) {
@@ -63,12 +82,11 @@ function AddToCartDialog({ onClose }) {
         return (
             <Dialog
                 open={isDialogOpen}
-                onClose={onClose}
+                onClose={handleCancel}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
                 id="add-to-cart-dialogue"
                 sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 } }}
-                
             >
                 <DialogTitle id="alert-dialog-title">
                     {selectedItem.name}
@@ -96,7 +114,6 @@ function AddToCartDialog({ onClose }) {
                             <Divider />
                             </div>
                         ))}
-                        
                     </RadioGroup>
 
                     <RadioGroup
@@ -115,12 +132,14 @@ function AddToCartDialog({ onClose }) {
                             </div>
                         ))}
                     </RadioGroup>
-                </DialogContent>
+                </DialogContent> 
                 <DialogActions> 
-                    <button onClick={onClose} autoFocus disabled={isAgreeDisabled}>
+                    <button onClick={() => handleCancel()} autoFocus>
+                        Cancel
+                    </button>
+                    <button onClick={() => handleCancel()} disabled={isAgreeDisabled}>
                         Add To Cart - ${cost}
                     </button>
-                    <button onClick={onClose}>Cancel</button>
                 </DialogActions>
             </Dialog>
         );

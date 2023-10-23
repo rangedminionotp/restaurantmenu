@@ -1,118 +1,30 @@
-.cart-item {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 20px; /* Increase the spacing between items */
-  border: 1px solid #ddd;
-  padding: 15px; /* Add more padding to create space within items */
-}
-  
-.cart-item-details {
-  flex: 1;
+.cart-container {
   display: flex;
   flex-direction: column;
-  margin-right: 50px; /* Add margin on the right to separate text from buttons */
+  gap: 10px;
+  /* Add any other styling you want for the container */
 }
-  
-  .cart-item-name {
-    font-weight: bold;
-  }
-  
-  .cart-item-options {
-    margin-top: 5px;
-    font-size: 0.8em;
-  }
 
-  .cart-item-price {
-    text-align: right;
-    display: flex;
-    justify-content: flex-end; /* Keep the text aligned to the right */
-    align-items: center; /* Center vertically */
-  }
+.cart-item {
+  /* Style for each individual cart item */
+  background-color: #f0f0f0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
 
-  .cart-item-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Add space between the buttons */
-    margin-right: 50px;
-  }
-  
-  .cart-item-actions button {
-    height: 35px; /* Slightly increase button height */
-    padding: 5px 15px; /* Increase button padding for a larger clickable area */
-    border: 1px solid #ddd;
-    border-radius: 8px; /* Add border radius for rounded buttons */
-    cursor: pointer;
-  }
-  
-  .cart-item-actions button:hover {
-    background-color: #bfbebe;
-  }
-  
-  .cart-item-actions button.edit-button,
-  .cart-item-actions button.delete-button {
-    background-color: #f0ad4e;
-    color: #fff;
-    border: 1px solid #f0ad4e;
-  }
-  
-  .cart-item-actions button.edit-button:hover,
-  .cart-item-actions button.delete-button:hover {
-    background-color: #e69539;
-    border: 1px solid #e69539;
-  }
-  
-  .cart-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px; /* Add padding to create spacing around the cart component */
-  }
+.cart-item-name {
+  font-weight: bold;
+}
 
-  .order-summary {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 20px;
-  }
-  
-  .summary-label {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .summary-value {
-    margin-bottom: 10px;
-  }
-  
-  .order-details {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    border: 1px solid #ddd;
-    padding: 15px;
-  }
-  
-  .input-field {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-  }
-  
-  .order-button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .order-button:hover {
-    background-color: #0056b3;
-  }
-  
+.cart-item-price {
+  color: green;
+}
+
+.cart-item-quantity {
+  color: blue;
+}
+
+.cart-item-options {
+  color: gray;
+}

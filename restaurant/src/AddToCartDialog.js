@@ -97,22 +97,27 @@ function AddToCartDialog({ onClose }) {
         onClose();
     };
 
-    const handleAddCart = (item) => {
-        const cartItem = [
-            {
-              'categorieID': item.categorieID,
-              'itemID': item.itemID,
-              'quantity': quantity,
-              'instructions': userPreferences,
-              'options': {
+    const handleAddCart = (item) => { 
+        const storedCartItems = localStorage.getItem('cart'); 
+        const currentCartItems = storedCartItems ? JSON.parse(storedCartItems) : []; 
+        const newCartItem = {
+            'categorieID': item.categorieID,
+            'itemID': item.itemID,
+            'quantity': quantity,
+            'instructions': userPreferences,
+            'totalPrice': cost,
+            'options': {
                 'SPICES': selectedSpice,
                 'MEAT': selectedMeat
-              }
-            }
-          ];
-          
-        const cartItemJSON = JSON.stringify(cartItem);  
-        localStorage.setItem('cart', cartItemJSON);
+            },
+            'name': selectedItem.name,
+            'img': 'https://www.thesprucepets.com/thmb/AyzHgPQM_X8OKhXEd8XTVIa-UT0=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-145577979-d97e955b5d8043fd96747447451f78b7.jpg'
+        };
+        currentCartItems.push(newCartItem);
+     
+        const updatedCartItemsJSON = JSON.stringify(currentCartItems); 
+        localStorage.setItem('cart', updatedCartItemsJSON);
+    
         resetState();
         onClose();
     }

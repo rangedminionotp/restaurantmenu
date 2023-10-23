@@ -1,7 +1,9 @@
-import React  from "react";
+import React from "react";
 import SharedContext from './utility/context';
 import CartItemContext from "./utility/CartItemContext";
-
+import { Divider, IconButton } from '@mui/material';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 function CartItems() {
     const { cartItems, setCartItems } = React.useContext(CartItemContext);
@@ -11,73 +13,57 @@ function CartItems() {
         return <div className="menu">Loading...</div>;
     }
 
-    const categories = menuData.categories;
-    const options = menuData.options;
-    const tax = menuData.tax;
-    
-    const addRemoveItem = (item, count) => {
-        const updatedCart = [...cartItems];
-        const index = updatedCart.findIndex(cartItem => (
-            cartItem.categorieID === item.categorieID && cartItem.itemID === item.itemID
-        ));
-    
-        if (index !== -1) {
-            updatedCart[index].quantity += count;
-            if (updatedCart[index].quantity <= 0) {
-                updatedCart.splice(index, 1);
+    const increaseQuantity = (itemData) => {
+        const updatedCartItems = cartItems.map((item) => {
+            if (item.categorieID === itemData.categorieID && item.itemID === itemData.itemID) {
+                item.quantity += 1;
             }
-    
-            // Update the local storage
-            localStorage.setItem('cart', JSON.stringify(updatedCart));
-    
-            // Update the state with the new cart items
-            setCartItems(updatedCart);
-        }
-    }
+            return item;
+        });
+        updateCart(updatedCartItems);
+    };
+
+    const decreaseQuantity = (itemData) => {
+        const updatedCartItems = cartItems.map((item) => {
+            if (item.categorieID === itemData.categorieID && item.itemID === itemData.itemID) {
+                if (item.quantity > 1) {
+                    item.quantity -= 1;
+                }
+            }
+            return item;
+        });
+        updateCart(updatedCartItems);
+    };
+
+    const updateCart = (updatedCartItems) => {
+        localStorage.setItem('cart', JSON.stringify(updatedCartItems));
+        setCartItems(updatedCartItems);
+    };
 
     return (
         <div className='cart-container'>
-        {cartItems.map((itemData, index) => {
-            var item = categories[itemData.categorieID].items[itemData.itemID]
-            var totalItemPrice = item.price * itemData.quantity
-            var itemOptionsList = [];
-
-            for (const option in itemData.options) {
-                for(const selection of itemData.options[option]) {
-                    var name = options[option].name
-                    var price = options[option].values[selection]
-                    totalItemPrice += price
-
-                    var priceStr = `$${price}`;
-                    if (price == 0) priceStr = "" // don't show $0
-
-                    itemOptionsList.push(`${name}: ${selection} ${priceStr}`);
-                }
-            }
-
-            return (
-                <div className='cart-item' key={index}>
-                    <div className='cart-item-details'>
-                        <div className='cart-item-name'>{item.name}</div>
-                        <div className='cart-item-options'>
-                        {itemOptionsList.map((option) => (
-                            <div key={option}>{option}</div>
-                        ))}
+            {cartItems.map((itemData, index) => {
+                return (
+                    <div className='cart-item' key={index}>
+                        <div className="cart-item-name">{itemData.name}</div>
+                        <div className="cart-item-price">price: ${itemData.totalPrice}</div>
+                        <div className="cart-item-quantity">
+                            <IconButton onClick={() => decreaseQuantity(itemData)} disabled={itemData.quantity === 1}>
+                                <RemoveCircleOutlineIcon />
+                            </IconButton>
+                            <div className="cart-item-quantity-number">quantity: {itemData.quantity}</div>
+                            <IconButton onClick={() => increaseQuantity(itemData)}>
+                                <AddCircleOutlineIcon />
+                            </IconButton>
                         </div>
+                        <div className="cart-item-options">Spice level: {itemData.options.SPICES}</div>
+                        <div className="cart-item-options">Meat Choice: {itemData.options.MEAT}</div>
+                        <div className="cart-item-img"><img src={itemData.img} alt={itemData.name} /></div>
                     </div>
-                    <div className='cart-item-actions'>
-                        <button onClick={() => console.log(itemData)}>Edit</button>
-                        <button onClick={() => addRemoveItem(itemData, -1)}>-</button>
-                        <button onClick={() => addRemoveItem(itemData, 1)}>+</button>
-                        <span>x{itemData.quantity}</span>
-                    </div>
-                    <div className='cart-item-price'>${totalItemPrice}</div>
-                </div>
-            )
-        })}
+                );
+            })}
         </div>
-    )
-
+    );
 }
 
 export default CartItems;

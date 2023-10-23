@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SharedContext from "./utility/context";
 import Cart from "./Cart";
+import Admin from "./Admin";
 import {BrowserRouter, Route, Routes, Navigate} from 'react-router-dom';
 
 import Home from "./Home";
@@ -34,6 +35,9 @@ function App() {
           }/>
           <Route path='/cart' exact element={
             <Cart />
+          }/>
+          <Route path='/admin' exact element={
+            <Admin />
           }/>
           <Route path='*' element={
               <AuthenticatedRoute>

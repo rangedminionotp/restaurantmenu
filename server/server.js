@@ -77,7 +77,7 @@ app.post('/order', (req, res) => {
 
   // make sure there's at least 1 item
   if (data.length < 1) {
-    res.send('empty order')
+    res.send(JSON.stringify({ error: "empty cart" }))
     return
   }
 
@@ -87,7 +87,7 @@ app.post('/order', (req, res) => {
   for(item of data) {
     console.log(item)
     if (!item.categorieID || !item.itemID) {
-      res.send('missing data')
+      res.send(JSON.stringify({ error: "missing data" }))
       return
     }
 
@@ -128,10 +128,10 @@ app.post('/order', (req, res) => {
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error('Error sending email:', error);
-      res.send('failed to send email') // TODO notify user to call store
+      res.send(JSON.stringify({ error: "failed to send email" })) // TODO notify user to call store
     } else {
       console.log('Email sent:', info.messageId);
-      res.send('ok')
+      res.send(JSON.stringify({ success: true }))
     }
   });
 
@@ -142,13 +142,13 @@ app.post('/auth', (req, res) => {
 
   // make sure all data is there
   if (!data.username || !data.password) {
-    res.send('missing data')
+    res.send(JSON.stringify({ error: "missing data" }))
     return
   }
 
   // make sure all data is valid
   if (data.username.length < 1 || data.password.length < 1) {
-    res.send('invalid data')
+    res.send(JSON.stringify({ error: "invalid data" }))
     return
   }
 
@@ -157,7 +157,7 @@ app.post('/auth', (req, res) => {
 
     // if password is wrong
     if (users[data.username].password != hash) {
-      res.send('invalid login')
+      res.send(JSON.stringify({ error: "invalid login" }))
       return
     }
 
@@ -170,163 +170,53 @@ app.post('/auth', (req, res) => {
     // save data to file
     saveUserData();
 
-    res.send(token)
+    res.send(JSON.stringify({ token: token }))
   })
 
   
 })
 
-app.post('/delCategorie', (req, res) => {
+app.post('/checkToken', (req, res) => {
   const data = req.body
 
   // make sure all data is there
-  if (!data.token || !data.categorieID) {
-    res.send('missing data')
-    return
-  }
-
-  // make sure all data is valid
-  if (data.token.length < 1 || data.categorieID.length < 1) {
-    res.send('invalid data')
+  if (!data.checkToken) {
+    res.send(JSON.stringify({ error: "missing data" }))
     return
   }
 
   // check if token is valid
   if (!checkToken(data.token)) {
-    res.send('invalid token')
+    res.send(JSON.stringify({ error: "invalid token" }))
     return
   }
-
-  // if catagory doesn't exist
-  if (!allData.categories[data.categorieID]) {
-    res.send('unknown category')
-    return
-  }
-
-  // delete data from memory
-  delete allData.categories[data.categorieID]
-
-  // save data to file
-  saveItemData();
-
-  res.send('ok')
-})
-
-app.post('/editCategorie', (req, res) => {
-  const data = req.body
-
-  // make sure all data is there
-  if (!data.categorieID || !data.description || !data.token) {
-    res.send('missing data')
-    return
-  }
-
-  // make sure all data is valid
-  if (data.categorieID.length < 1 || data.description.length < 1 || data.token.length < 1) {
-    res.send('invalid data')
-    return
-  }
-
-  // check if token is valid
-  if (!checkToken(data.token)) {
-    res.send('invalid token')
-    return
-  }
-
-  // if catagory doesn't exist, create it
-  if (!allData.categories[data.categorieID]) {
-    allData.categories[data.categorieID] = {
-      items: {}
-    }
-  }
-
-  // save data to memory
-  allData.categories[data.categorieID].description = data.description
-
-  // save data to file
-  saveItemData();
-
-  res.send('ok')
-})
-
-app.post('/delItem', (req, res) => {
-  const data = req.body
   
-  // make sure all data is there
-  if (!data.categorieID || !data.itemID || !data.token) {
-    res.send('missing data')
-    return
-  }
-
-  // make sure all data is valid
-  if (data.categorieID.length < 1 || data.itemID.length < 1 || data.token.length < 1) {
-    res.send('invalid data')
-    return
-  }
-
-  // check if token is valid
-  if (!checkToken(data.token)) {
-    res.send('invalid token')
-    return
-  }
-
-  // if catagory doesn't exist
-  if (!allData.categories[data.categorieID]) {
-    res.send('unknown category')
-    return
-  }
-
-  // if item doesn't exist
-  if (!allData.categories[data.categorieID].items[data.itemID]) {
-    res.send('unknown item')
-    return
-  }
-
-  // delete data from memory
-  delete allData.categories[data.categorieID].items[data.itemID]
-
-  // save data to file
-  saveItemData();
-
-  res.send('ok')
+  res.send(JSON.stringify({ success: true }))
 })
 
-app.post('/editItem', (req, res) => {
+app.post('/editMenu', (req, res) => {
   const data = req.body
-  
-  // make sure all data is there
-  if (!data.categorieID || !data.itemID || !data.description || !data.price || !data.options || !data.token) {
-    res.send('missing data')
-    return
-  }
 
-  // make sure all data is valid
-  if (data.categorieID.length < 1 || data.itemID.length < 1 || data.description.length < 1 || data.price < 0 || data.options.length < 1 || data.token.length < 1) {
-    res.send('invalid data')
+  // make sure all data is there
+  if (!data.token || !data.tax || !data.categories || !data.options) {
+    res.send(JSON.stringify({ error: "missing data" }))
     return
   }
 
   // check if token is valid
   if (!checkToken(data.token)) {
-    res.send('invalid token')
-    return
-  }
-
-  // if catagory doesn't exist
-  if (!allData.categories[data.categorieID]) {
-    res.send('unknown category')
+    res.send(JSON.stringify({ error: "invalid token" }))
     return
   }
 
   // save data to memory
-  allData.categories[data.categorieID].items[data.itemID].price = data.price
-  allData.categories[data.categorieID].items[data.itemID].description = data.description
-  allData.categories[data.categorieID].items[data.itemID].options = data.options
+  delete data.token
+  allData = data
 
   // save data to file
   saveItemData();
 
-  res.send('ok')
+  res.send(JSON.stringify({ success: true }))
 })
 
 // anyone reuesting data

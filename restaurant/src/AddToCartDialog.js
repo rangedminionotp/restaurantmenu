@@ -25,9 +25,10 @@ function AddToCartDialog({ onClose }) {
         // Check if selectedItem is not null
         if (selectedItem) {
             // Calculate the cost based on the selected options
+            console.log(selectedItem) 
             setIsAgreeDisabled(!areAllRequiredChoicesChecked());   
             // Calculate the cost based on the selected options and quantity
-            let newCost = selectedItem.price;
+            let newCost = selectedItem.ogPrice ? selectedItem.ogPrice : selectedItem;
     
             for (const key of Object.keys(selectedOptions)) {
                 const selectedValue = selectedOptions[key];
@@ -101,6 +102,7 @@ function AddToCartDialog({ onClose }) {
             'options': selectedOptions,
             'price': cost/quantity,
             'name': selectedItem.name,
+            'ogPrice': item.price,
             'img': 'https://www.thesprucepets.com/thmb/AyzHgPQM_X8OKhXEd8XTVIa-UT0=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-145577979-d97e955b5d8043fd96747447451f78b7.jpg'
         };
         currentCartItems.push(newCartItem);

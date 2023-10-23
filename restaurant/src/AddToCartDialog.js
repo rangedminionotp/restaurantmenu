@@ -12,7 +12,7 @@ import './AddToCartDialog.css';
 import { Divider, IconButton } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-
+import TextareaAutosize from '@mui/material/TextareaAutosize';
 function AddToCartDialog({ onClose }) {
     const { isDialogOpen, selectedItem, menuData } = React.useContext(SharedContext);
     const [selectedSpice, setSelectedSpice] = useState('');
@@ -22,6 +22,7 @@ function AddToCartDialog({ onClose }) {
     const [spiceCost, setSpiceCost] = useState(0);
     const [meatCost, setMeatCost] = useState(0);
     const [quantity, setQuantity] = useState(1);  
+    const [userPreferences, setUserPreferences] = useState('');
 
     useEffect(() => {
         if (selectedItem) {
@@ -85,6 +86,9 @@ function AddToCartDialog({ onClose }) {
             setIsAgreeDisabled(!(spice && meat));
         }
     };
+    const handleUserPreferencesChange = (e) => {
+        setUserPreferences(e.target.value);
+      };
 
     // Function to handle the "Cancel" button
     const handleCancel = () => {
@@ -115,9 +119,11 @@ function AddToCartDialog({ onClose }) {
                         <p className='item-description'>{selectedItem.description}</p>
                         <p className='item-price'>${cost}</p>
                     </DialogContentText>
+                    <Divider />
                     <RadioGroup
                         value={selectedSpice}
                         onChange={handleSelectedSpiceChange}
+                        className='radio-group-options'
                     >   
                         <div className='radio-group-label'>{menuData.options.SPICE.description} (Required) {menuData.options.SPICE.required && '(Required)'}</div>
                         {Object.keys(spiceOptions).map((spiceLevel) => (
@@ -149,15 +155,25 @@ function AddToCartDialog({ onClose }) {
                             </div>
                         ))}
                     </RadioGroup>
-                </DialogContent> 
+                <div className='user-preferences'>Preferences (Optional)</div>
+                <TextareaAutosize
+    aria-label="Add Special Instructions"
+    minRows={10}
+    value={userPreferences}
+    onChange={handleUserPreferencesChange}
+    placeholder="Enter special instructions here..."
+    className="user-preferences-textarea"
+/>
+                </DialogContent>  
                 <DialogActions className='dialog-actions'> 
+                <IconButton disabled={quantity == 1}>
+                        <RemoveCircleOutlineIcon onClick={decreaseQuantity}/>
+                    </IconButton> 
+                    
+                    {quantity}
                     <IconButton>
                         <AddCircleOutlineIcon onClick={increaseQuantity} /> 
                     </IconButton>
-                    {quantity}
-                    <IconButton>
-                        <RemoveCircleOutlineIcon onClick={decreaseQuantity} disabled={quantity == 1} className={`decrement${quantity == 1 ? 'disabled' : ''}`}/>
-                    </IconButton> 
                     <button onClick={() => handleCancel()} autoFocus>
                         Cancel
                     </button>

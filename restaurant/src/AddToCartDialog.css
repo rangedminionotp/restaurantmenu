@@ -4,14 +4,18 @@
 }
 
 .item-description {
-  font-size: 16px;
+  font-size: 1.1em;
   margin: 10px 0;
 }
 
 .item-price {
-  font-size: 18px;
+  font-size: 1.1em;
   font-weight: bold;
   color: #00796B;
+}
+
+.radio-group-options{
+  margin: 20px 0;
 }
 
 .radio-group-label {
@@ -26,7 +30,16 @@
   display: flex;
   justify-content: space-between;
 }
+ 
+.user-preferences {
+  margin-top: 16px; /* Adjust the margin to your preference */
+  font-size: 1.1em;
+  font-weight: bold;
+}
 
-.decrementdisabled{
-  cursor: not-allowed;
+.user-preferences-textarea {
+  margin-top: 16px;
+  width: 100%; /* Set width to 100% to make it expand to the full width */
+  resize: none; /* Disable resizing */ 
+  font-size: 1.1em;
 }

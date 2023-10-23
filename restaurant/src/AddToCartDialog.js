@@ -14,79 +14,70 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 function AddToCartDialog({ onClose }) {
-    const { isDialogOpen, selectedItem, menuData } = React.useContext(SharedContext);
-    const [selectedSpice, setSelectedSpice] = useState('');
-    const [selectedMeat, setSelectedMeat] = useState('');
+    const { isDialogOpen, selectedItem, menuData } = React.useContext(SharedContext); 
     const [isAgreeDisabled, setIsAgreeDisabled] = useState(true);
-    const [cost, setCost] = useState(0);
-    const [spiceCost, setSpiceCost] = useState(0);
-    const [meatCost, setMeatCost] = useState(0);
+    const [cost, setCost] = useState(0); 
     const [quantity, setQuantity] = useState(1);  
     const [userPreferences, setUserPreferences] = useState('');
-
+    const [selectedOptions, setSelectedOptions] = useState({}); 
+    
     useEffect(() => {
+        // Check if selectedItem is not null
         if (selectedItem) {
-            setSelectedSpice('');
-            setSelectedMeat('');
-            setIsAgreeDisabled(true);
-            setCost(selectedItem.price.toFixed(2));
+            // Calculate the cost based on the selected options
+            setIsAgreeDisabled(!areAllRequiredChoicesChecked());
+    
+            // Calculate the cost based on the selected options and quantity
+            let newCost = selectedItem.price;
+    
+            for (const key of Object.keys(selectedOptions)) {
+                const selectedValue = selectedOptions[key];
+                const additionalCost = menuData.options[key].values[selectedValue];
+                newCost += additionalCost;
+            }
+    
+            // Set the new cost taking into account the quantity
+            setCost((newCost * quantity).toFixed(2));
         }
-    }, [selectedItem]);
+    }, [selectedOptions, selectedItem, menuData, quantity]);
 
     // Function to reset all state variables
-    const resetState = () => {
-        setSelectedSpice('');
-        setSelectedMeat('');
+    const resetState = () => { 
         setIsAgreeDisabled(true);
-        setCost(0);
-        setSpiceCost(0);
-        setMeatCost(0);
+        setCost(0); 
         setQuantity(1);
         setUserPreferences('')
+        setSelectedOptions({})
     };
 
-    const handleSelectedSpiceChange = (e) => {
-        setSelectedSpice(e.target.value);
-        const spiceValue = menuData.options.SPICE.values[e.target.value];
-        setSpiceCost(spiceValue);
-        recalculateTotalCost(spiceValue, meatCost);
-        checkAgreeButtonState(e.target.value, selectedMeat);
-    };
-
-    const handleSelectedMeatChange = (e) => {
-        setSelectedMeat(e.target.value);
-        const meatValue = menuData.options.MEAT.values[e.target.value];
-        setMeatCost(meatValue);
-        recalculateTotalCost(spiceCost, meatValue);
-        checkAgreeButtonState(selectedSpice, e.target.value);
-    };  
-
+    const handleOptionChange = (optionKey, value) => {
+        // Update the selected options with the new value
+        setSelectedOptions({
+            ...selectedOptions,
+            [optionKey]: value,
+        });
+    }
+    
     const increaseQuantity = () => {
-        const newQuantity = quantity + 1;
-        const newTotalCost = (parseFloat(selectedItem.price) + parseFloat(spiceCost) + parseFloat(meatCost)) * newQuantity;
-        setQuantity(newQuantity);
-        setCost(newTotalCost.toFixed(2));
+        setQuantity(quantity+1)
     };
     
     const decreaseQuantity = () => {
         if (quantity > 1) {
-            const newQuantity = quantity - 1;
-            const newTotalCost = (parseFloat(selectedItem.price) + parseFloat(spiceCost) + parseFloat(meatCost)) * newQuantity;
-            setQuantity(newQuantity);
-            setCost(newTotalCost.toFixed(2));
+            setQuantity(quantity - 1);
         }
     };
     
-    const recalculateTotalCost = (spice, meat) => {
-        const newTotalCost = parseFloat((parseFloat(selectedItem.price) + parseFloat(spice) + parseFloat(meat))) * parseFloat(quantity); 
-        setCost(newTotalCost.toFixed(2));
+    const areAllRequiredChoicesChecked = () => {
+        for (const optionKey in menuData.options) {
+            const option = menuData.options[optionKey];
+            if (option.required && !selectedOptions[optionKey]) {
+                return false; // A required choice is not checked
+            }
+        }
+        return true; // All required choices are checked
     };
 
-    const checkAgreeButtonState = (spice, meat) => { 
-        if (menuData && menuData.options && menuData.options.SPICE && menuData.options.MEAT) {
-            setIsAgreeDisabled(!(spice && meat));
-        }
-    };
     const handleUserPreferencesChange = (e) => {
         setUserPreferences(e.target.value);
       };
@@ -106,10 +97,7 @@ function AddToCartDialog({ onClose }) {
             'quantity': quantity,
             'instructions': userPreferences,
             'totalPrice': cost,
-            'options': {
-                'SPICES': selectedSpice,
-                'MEAT': selectedMeat
-            },
+            'options': selectedOptions,
             'price': cost/quantity,
             'name': selectedItem.name,
             'img': 'https://www.thesprucepets.com/thmb/AyzHgPQM_X8OKhXEd8XTVIa-UT0=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-145577979-d97e955b5d8043fd96747447451f78b7.jpg'
@@ -124,9 +112,6 @@ function AddToCartDialog({ onClose }) {
     }
 
     if (selectedItem && menuData && menuData.options) {
-        const spiceOptions = menuData.options.SPICE.values;
-        const meatOptions = menuData.options.MEAT.values;
-
         return (
             <Dialog
                 open={isDialogOpen}
@@ -146,51 +131,40 @@ function AddToCartDialog({ onClose }) {
                         <p className='item-description'>{selectedItem.description}</p>
                         <p className='item-price'>${cost}</p>
                     </DialogContentText>
-                    <Divider />
-                    <RadioGroup
-                        value={selectedSpice}
-                        onChange={handleSelectedSpiceChange}
-                        className='radio-group-options'
-                    >   
-                        <div className='radio-group-label'>{menuData.options.SPICE.description} {menuData.options.SPICE.required && '(Required)'}</div>
-                        {Object.keys(spiceOptions).map((spiceLevel) => (
-                            <div className='radio-button'>
+                    <Divider /> 
+                    {Object.keys(menuData.options).map((optionKey) => (
+                    <div key={optionKey}>
+                        <div className='radio-group-label'>{menuData.options[optionKey].description} {menuData.options[optionKey].required && '(Required)'}</div>
+                        <RadioGroup
+                                value={selectedOptions[optionKey] || ''} // Set the selected value
+                                onChange={(e) => handleOptionChange(optionKey, e.target.value)} // Call handleOptionChange on change
+                            >
+                        {Object.keys(menuData.options[optionKey].values).map((value, index) => (
+                            <div className='radio-button' key={index}>
                                 <FormControlLabel
-                                    key={spiceLevel}
-                                    value={spiceLevel}
+                                    value={value}
                                     control={<Radio />}
-                                    label={spiceOptions[spiceLevel] > 0 ? `${spiceLevel} +$${spiceOptions[spiceLevel].toFixed(2)}` : spiceLevel}
+                                    label={
+                                        menuData.options[optionKey].values[value] > 0
+                                            ? `${value} +$${menuData.options[optionKey].values[value].toFixed(2)}`
+                                            : value
+                                    }
                                 />
                                 <Divider />
                             </div>
                         ))}
-                    </RadioGroup>
-
-                    <RadioGroup
-                        value={selectedMeat}
-                        onChange={handleSelectedMeatChange}
-                    >   
-                        <div className='radio-group-label'>{menuData.options.MEAT.description} {menuData.options.MEAT.required && '(Required)'}</div>
-                        {Object.keys(meatOptions).map((meatType) => (
-                            <div className='radio-button' key={meatType}>
-                                <FormControlLabel
-                                    value={meatType}
-                                    control={<Radio />}
-                                    label={meatOptions[meatType] > 0 ? `${meatType} +$${meatOptions[meatType].toFixed(2)}` : meatType}
-                                />
-                                <Divider />
-                            </div>
-                        ))}
-                    </RadioGroup>
+                        </RadioGroup>
+                    </div>
+                    ))}
                 <div className='user-preferences'>Preferences (Optional)</div>
                 <TextareaAutosize
-    aria-label="Add Special Instructions"
-    minRows={10}
-    value={userPreferences}
-    onChange={handleUserPreferencesChange}
-    placeholder="Enter special instructions here..."
-    className="user-preferences-textarea"
-/>
+                    aria-label="Add Special Instructions"
+                    minRows={10}
+                    value={userPreferences}
+                    onChange={handleUserPreferencesChange}
+                    placeholder="Enter special instructions here..."
+                    className="user-preferences-textarea"
+                />
                 </DialogContent>  
                 <DialogActions className='dialog-actions'> 
                 <IconButton disabled={quantity == 1}>

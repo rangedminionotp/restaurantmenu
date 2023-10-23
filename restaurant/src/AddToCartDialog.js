@@ -42,6 +42,7 @@ function AddToCartDialog({ onClose }) {
         setSpiceCost(0);
         setMeatCost(0);
         setQuantity(1);
+        setUserPreferences('')
     };
 
     const handleSelectedSpiceChange = (e) => {

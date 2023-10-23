@@ -16,15 +16,47 @@ function AddToCartDialog({ onClose }) {
     const { isDialogOpen, selectedItem, menuData } = React.useContext(SharedContext);
     const [selectedSpice, setSelectedSpice] = useState('');
     const [selectedMeat, setSelectedMeat] = useState('');
-
+    const [isAgreeDisabled, setIsAgreeDisabled] = useState(true);
+    const [cost, setCost] = useState(0);
+    const [spiceCost, setSpiceCost] = useState(0);
+    const [meatCost, setMeatCost] = useState(0);
     useEffect(() => {
         if (selectedItem) {
             setSelectedSpice('');
             setSelectedMeat('');
+            setIsAgreeDisabled(true)
+            setCost(selectedItem.price.toFixed(2))
         }
     }, [selectedItem]);
 
-    if (selectedItem && menuData) {
+    const handleSelectedSpiceChange = (e) => {
+        setSelectedSpice(e.target.value);
+        const spiceValue = menuData.options.SPICE.values[e.target.value];
+        setSpiceCost(spiceValue);
+        recalculateTotalCost(spiceValue, meatCost);
+        checkAgreeButtonState(e.target.value, selectedMeat);
+    };
+    
+    const handleSelectedMeatChange = (e) => {
+        setSelectedMeat(e.target.value);
+        const meatValue = menuData.options.MEAT.values[e.target.value];
+        setMeatCost(meatValue);
+        recalculateTotalCost(spiceCost, meatValue);
+        checkAgreeButtonState(selectedSpice, e.target.value);
+    };
+    
+    const recalculateTotalCost = (spice, meat) => {
+        const newTotalCost = parseFloat(selectedItem.price) + parseFloat(spice) + parseFloat(meat);
+        setCost(newTotalCost.toFixed(2));
+    };
+
+    const checkAgreeButtonState = (spice, meat) => { 
+        if (menuData && menuData.options && menuData.options.SPICE && menuData.options.MEAT) {
+            setIsAgreeDisabled(!(spice && meat));
+        }
+    };
+
+    if (selectedItem && menuData && menuData.options) {
         const spiceOptions = menuData.options.SPICE.values;
         const meatOptions = menuData.options.MEAT.values;
 
@@ -46,20 +78,20 @@ function AddToCartDialog({ onClose }) {
                         <img className='item-img'
                             src='https://www.thesprucepets.com/thmb/AyzHgPQM_X8OKhXEd8XTVIa-UT0=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-145577979-d97e955b5d8043fd96747447451f78b7.jpg'/>
                         <p className='item-description'>{selectedItem.description}</p>
-                        <p className='item-price'>${selectedItem.price.toFixed(2)}</p>
+                        <p className='item-price'>${cost}</p>
                     </DialogContentText>
                     <RadioGroup
                         value={selectedSpice}
-                        onChange={(e) => setSelectedSpice(e.target.value)}
+                        onChange={handleSelectedSpiceChange}
                     >   
-                        {menuData.options.SPICE.description}
+                        <div>{menuData.options.SPICE.description} (Required) {menuData.options.SPICE.required && '(Required)'}</div>
                         {Object.keys(spiceOptions).map((spiceLevel) => (
                             <div>
                             <FormControlLabel
                                 key={spiceLevel}
                                 value={spiceLevel}
                                 control={<Radio />}
-                                label={spiceLevel}
+                                label={spiceOptions[spiceLevel] > 0 ? `${spiceLevel} +$${spiceOptions[spiceLevel].toFixed(2)}` : spiceLevel}
                             />
                             <Divider />
                             </div>
@@ -69,27 +101,26 @@ function AddToCartDialog({ onClose }) {
 
                     <RadioGroup
                         value={selectedMeat}
-                        onChange={(e) => setSelectedMeat(e.target.value)}
+                        onChange={handleSelectedMeatChange}
                     >   
-                        {menuData.options.MEAT.description}
+                        <div>{menuData.options.MEAT.description} (Required) {menuData.options.MEAT.required && '(Required)'}</div>
                         {Object.keys(meatOptions).map((meatType) => (
-                            <div>
-                            <FormControlLabel
-                                key={meatType}
-                                value={meatType}
-                                control={<Radio />}
-                                label={meatType}
-                            />
-                            <Divider />
+                            <div key={meatType}>
+                                <FormControlLabel
+                                    value={meatType}
+                                    control={<Radio />}
+                                    label={meatOptions[meatType] > 0 ? `${meatType} +$${meatOptions[meatType].toFixed(2)}` : meatType}
+                                />
+                                <Divider />
                             </div>
                         ))}
                     </RadioGroup>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={onClose}>Disagree</Button>
-                    <Button onClick={onClose} autoFocus>
-                        Agree
-                    </Button>
+                <DialogActions> 
+                    <button onClick={onClose} autoFocus disabled={isAgreeDisabled}>
+                        Add To Cart - ${cost}
+                    </button>
+                    <button onClick={onClose}>Cancel</button>
                 </DialogActions>
             </Dialog>
         );

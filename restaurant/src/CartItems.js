@@ -22,7 +22,7 @@ function CartItems() {
     const increaseQuantity = (itemData) => {
         const updatedCartItems = cartItems.map((item) => {
             if (
-                item.itemID === itemData.itemID 
+                item.itemID === itemData.itemID  && item.instructions === itemData.instructions && item.options === itemData.options
             ) {
                 item.quantity += 1;
                 item.totalPrice = (item.quantity * item.price).toFixed(2);
@@ -33,9 +33,9 @@ function CartItems() {
     };
 
     const decreaseQuantity = (itemData) => {
-        const updatedCartItems = cartItems.map((item) => {
+        const updatedCartItems = cartItems.map((item) => { 
             if (
-                item.itemID === itemData.itemID && item.instructions === itemData.instructions
+                item.itemID === itemData.itemID && item.instructions === itemData.instructions && item.options === itemData.options
             ) {
                 if (item.quantity > 1) {
                     item.quantity -= 1;
@@ -59,10 +59,11 @@ function CartItems() {
                     <div className='cart-item' key={index}>
                         <div className="cart-item-name">{itemData.name}</div>
                         <div className="cart-item-price">price: ${itemData.totalPrice}</div>
-                        <div className="cart-item-quantity">
+                        
                             <div className="cart-item-img">
                                 <img className="cart-item-image" src={itemData.img} alt={itemData.name} />
                             </div>
+                            <div className="cart-item-quantity">
                             <IconButton onClick={() => decreaseQuantity(itemData)} disabled={itemData.quantity === 1}>
                                 <RemoveCircleOutlineIcon />
                             </IconButton>
@@ -71,6 +72,11 @@ function CartItems() {
                                 <AddCircleOutlineIcon />
                             </IconButton>
                         </div> 
+                        {Object.keys(itemData.options).map((optionKey) => (
+                            <div>{menuData.options[optionKey].name}: {`${itemData.options[optionKey]}`}
+                            <button className='cart-item-options-editbtn'>Edit</button>
+                            </div>
+                        ))}
                         <div className="cart-item-preferences">Preferences: {itemData.instructions}</div>
                     </div>
                 );

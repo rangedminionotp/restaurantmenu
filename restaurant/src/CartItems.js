@@ -8,12 +8,18 @@ import AddToCartDialog from './AddToCartDialog';
 
 function CartItems() {
     const { cartItems, setCartItems } = React.useContext(CartItemContext);
-    const { menuData } = React.useContext(SharedContext);
-    const [isAddToCartDialogOpen, setAddToCartDialogOpen] = useState(false);
+    const { menuData, setIsDialogOpen, setSelectedItem } = React.useContext(SharedContext); 
 
-    const showAddToCartDialog = () => {
-        setAddToCartDialogOpen(true);
+    const showAddToCartDialog = (item) => {
+        console.log(item)
+        setSelectedItem(item);
+        setIsDialogOpen(true);
     };
+
+    const handleClose = () => {
+        setIsDialogOpen(false);
+        setSelectedItem(null);   
+    }
 
     if (!menuData || !menuData.categories) {
         return <div className="menu">Loading...</div>;
@@ -74,19 +80,16 @@ function CartItems() {
                         </div> 
                         {Object.keys(itemData.options).map((optionKey) => (
                             <div>{menuData.options[optionKey].name}: {`${itemData.options[optionKey]}`}
-                            <button className='cart-item-options-editbtn'>Edit</button>
+                            
                             </div>
                         ))}
+                        <button onClick={()=>showAddToCartDialog(itemData)} className='cart-item-options-editbtn'>Edit</button>
                         <div className="cart-item-preferences">Preferences: {itemData.instructions}</div>
                     </div>
                 );
-            })}
-            <IconButton onClick={showAddToCartDialog}>
-                Add Item
-            </IconButton>
-            <AddToCartDialog
-                open={isAddToCartDialogOpen}
-                onClose={() => setAddToCartDialogOpen(false)}
+            })} 
+            <AddToCartDialog 
+                onClose={handleClose}
             />
         </div>
     );

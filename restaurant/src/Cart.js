@@ -3,8 +3,7 @@ import TopBar from "./TopBar";
 import SharedContext from './utility/context';
 import './Cart.css';
 import CartItems from "./CartItems";
-import CartItemContext from "./utility/CartItemContext";
-
+import CartItemContext from "./utility/CartItemContext"; 
 function Cart() {
     const [cartItems, setCartItems] = React.useState([]);
     const { menuData } = React.useContext(SharedContext);
@@ -50,8 +49,8 @@ function Cart() {
     return (
         <CartItemContext.Provider value={{ cartItems, setCartItems }}>
         <div id='cart'>
-            <TopBar /> 
-            <CartItems />
+            <TopBar />  
+            <CartItems /> 
             <div className="order-summary">
                 <div>Subtotal: ${getSubtotal().toFixed(2)}</div>
                 <div>Tax: ${getTax().toFixed(2)}</div>

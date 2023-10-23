@@ -151,7 +151,7 @@ function AddToCartDialog({ onClose }) {
                         onChange={handleSelectedSpiceChange}
                         className='radio-group-options'
                     >   
-                        <div className='radio-group-label'>{menuData.options.SPICE.description} (Required) {menuData.options.SPICE.required && '(Required)'}</div>
+                        <div className='radio-group-label'>{menuData.options.SPICE.description} {menuData.options.SPICE.required && '(Required)'}</div>
                         {Object.keys(spiceOptions).map((spiceLevel) => (
                             <div className='radio-button'>
                                 <FormControlLabel
@@ -169,7 +169,7 @@ function AddToCartDialog({ onClose }) {
                         value={selectedMeat}
                         onChange={handleSelectedMeatChange}
                     >   
-                        <div className='radio-group-label'>{menuData.options.MEAT.description} (Required) {menuData.options.MEAT.required && '(Required)'}</div>
+                        <div className='radio-group-label'>{menuData.options.MEAT.description} {menuData.options.MEAT.required && '(Required)'}</div>
                         {Object.keys(meatOptions).map((meatType) => (
                             <div className='radio-button' key={meatType}>
                                 <FormControlLabel

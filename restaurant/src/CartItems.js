@@ -5,7 +5,7 @@ import { IconButton } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import AddToCartDialog from './AddToCartDialog';
-
+import DeleteIcon from '@mui/icons-material/Delete';
 function CartItems() {
     const { cartItems, setCartItems } = React.useContext(CartItemContext);
     const { menuData, setIsDialogOpen, setSelectedItem, setSelectedOptions, setCartState } = React.useContext(SharedContext); 
@@ -78,8 +78,8 @@ function CartItems() {
                                 <img className="cart-item-image" src={itemData.img} alt={itemData.name} />
                             </div>
                             <div className="cart-item-quantity">
-                            <IconButton onClick={() => decreaseQuantity(itemData)} disabled={itemData.quantity === 1}>
-                                <RemoveCircleOutlineIcon />
+                            <IconButton>
+                                {itemData.quantity !== 1 ? <RemoveCircleOutlineIcon onClick={() => decreaseQuantity(itemData)}/> : <DeleteIcon />}
                             </IconButton>
                             <div className="cart-item-quantity-number">quantity: {itemData.quantity}</div>
                             <IconButton onClick={() => increaseQuantity(itemData)}>

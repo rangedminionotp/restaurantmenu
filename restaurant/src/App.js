@@ -16,7 +16,7 @@ function App() {
   const [selectedOptions, setSelectedOptions] = useState({}); 
   // Keep track if user is adding or editing
   const [cartState, setCartState] = useState('add'); 
-
+  const [deleteDialogOpen, setdeleteDialogOpen] = useState(false);  
   useEffect(() => {
     // Fetch the JSON data from the server
     fetch("http://localhost:3001", { method: "GET" })
@@ -31,7 +31,7 @@ function App() {
   }, []);
 
   return (
-    <SharedContext.Provider value = {{menuData, setMenuData, isDialogOpen, setIsDialogOpen, selectedItem, setSelectedItem, selectedOptions, setSelectedOptions, cartState, setCartState}}>
+    <SharedContext.Provider value = {{menuData, setMenuData, isDialogOpen, setIsDialogOpen, selectedItem, setSelectedItem, selectedOptions, setSelectedOptions, cartState, setCartState, deleteDialogOpen, setdeleteDialogOpen}}>
       <BrowserRouter> 
         <Routes>
           <Route path='/' exact element={

@@ -13,7 +13,8 @@ import { Divider, IconButton } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
-
+import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteItemDialog from './DeleteItemDialog';
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -23,7 +24,14 @@ function AddToCartDialog({ onClose}) {
     const [cost, setCost] = useState(0); 
     const [quantity, setQuantity] = useState(1);  
     const [userPreferences, setUserPreferences] = useState('');
+    const [open, setOpen] = React.useState(false);
+    const handleClickOpen = () => {
+        setOpen(true);
+      };
     
+      const handleClose = () => {
+        setOpen(false);
+      };
     useEffect(() => {
         if (selectedItem && menuData && menuData.options) {
             // Calculate the cost based on the selected options and quantity
@@ -130,6 +138,7 @@ function AddToCartDialog({ onClose}) {
     }
 
     const handleEditCart = (item) => { 
+        setCartState('add');
         const storedCartItems = localStorage.getItem('cart');
         const currentCartItems = storedCartItems ? JSON.parse(storedCartItems) : [];
     
@@ -156,6 +165,32 @@ function AddToCartDialog({ onClose}) {
         onClose();
         
     };
+
+    const handleDeleteItem = () => {
+        if (selectedItem) {
+          // Get the cart items from localStorage
+          const storedCartItems = localStorage.getItem('cart');
+          const currentCartItems = storedCartItems ? JSON.parse(storedCartItems) : [];
+      
+          // Find the index of the item to delete based on the cartID
+          const itemToDeleteIndex = currentCartItems.findIndex(
+            (cartItem) => cartItem.cartID === selectedItem.cartID
+          );
+      
+          if (itemToDeleteIndex !== -1) {
+            // Remove the item from the array
+            currentCartItems.splice(itemToDeleteIndex, 1);
+      
+            // Store the updated items back in localStorage
+            const updatedCartItemsJSON = JSON.stringify(currentCartItems);
+            localStorage.setItem('cart', updatedCartItemsJSON);
+      
+            // Reset the state and close the dialog
+            resetState();
+            onClose();
+          }
+        }
+      };
 
     if (selectedItem && menuData && menuData.options) {
         return (
@@ -213,10 +248,15 @@ function AddToCartDialog({ onClose}) {
                 />
                 </DialogContent>  
                 <DialogActions className='dialog-actions'> 
-                <IconButton disabled={quantity == 1}>
-                        <RemoveCircleOutlineIcon onClick={decreaseQuantity}/>
-                    </IconButton> 
-                    
+                {cartState === 'edit' ? ( // Only show DeleteIcon when in 'edit' mode
+                    <IconButton>
+                    <DeleteIcon onClick={handleClickOpen} />
+                    </IconButton>
+                ) : (
+                    <IconButton disabled={quantity === 1}>
+                    <RemoveCircleOutlineIcon onClick={decreaseQuantity} />
+                    </IconButton>
+                )}
                     {quantity}
                     <IconButton>
                         <AddCircleOutlineIcon onClick={increaseQuantity} /> 
@@ -230,6 +270,7 @@ function AddToCartDialog({ onClose}) {
                         Add To Cart - ${cost}
                     </button>
                 </DialogActions>
+                <DeleteItemDialog handleClose={handleClose} handleDelete={handleDeleteItem} open={open}/>
             </Dialog>
         );
     }

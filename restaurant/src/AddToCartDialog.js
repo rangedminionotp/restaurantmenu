@@ -45,12 +45,11 @@ function handleDeleteItem(selectedItem, resetState, onClose) {
 }
 
 function AddToCartDialog({ onClose }) {
-  const { isDialogOpen, selectedItem, menuData, selectedOptions, setSelectedOptions, cartState, setCartState } = React.useContext(SharedContext);
+  const { isDialogOpen, selectedItem, menuData, selectedOptions, setSelectedOptions, cartState, setCartState, setDeleteDialogOpen} = React.useContext(SharedContext);
   const [isAgreeDisabled, setIsAgreeDisabled] = useState(true);
   const [cost, setCost] = useState(0);
   const [quantity, setQuantity] = useState(1);
-  const [userPreferences, setUserPreferences] = useState('');
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [userPreferences, setUserPreferences] = useState(''); 
 
   const handleClickOpen = () => {
     setDeleteDialogOpen(true);

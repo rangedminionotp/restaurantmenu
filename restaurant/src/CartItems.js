@@ -6,6 +6,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import AddToCartDialog from './AddToCartDialog';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteItemDialog from "./DeleteItemDialog";
 function CartItems() {
     const { cartItems, setCartItems } = React.useContext(CartItemContext);
     const { menuData, setIsDialogOpen, setSelectedItem, setSelectedOptions, setCartState } = React.useContext(SharedContext); 

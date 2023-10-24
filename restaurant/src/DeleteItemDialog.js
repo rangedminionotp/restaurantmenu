@@ -5,13 +5,15 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import SharedContext from './utility/context';
 
-function DeleteItemDialog( {handleClose, handleDelete, open} ){ 
+function DeleteItemDialog( {handleClose, handleDelete} ){  
+  const { deleteDialogOpen } = React.useContext(SharedContext); 
 
     return (
         <div id='deleteDialog'>
         <Dialog
-        open={open}
+        open={deleteDialogOpen}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"

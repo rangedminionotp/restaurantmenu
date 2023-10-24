@@ -93,40 +93,38 @@ function AddToCartDialog({ onClose}) {
     const handleAddCart = (item) => {
         const storedCartItems = localStorage.getItem('cart'); 
         const currentCartItems = storedCartItems ? JSON.parse(storedCartItems) : []; 
-        const itemToEditIndex = currentCartItems.findIndex((cartItem) => cartItem.options === item.options && cartItem.instructions === item.instructions);
-
-        if (itemToEditIndex !== -1) { 
-            currentCartItems[itemToEditIndex] = {
-                ...currentCartItems[itemToEditIndex],
-                quantity: currentCartItems[itemToEditIndex].quantity + quantity,
-                instructions: userPreferences,
-                totalPrice: cost,
-                options: selectedOptions,
-                price: cost / quantity, 
+        
+        // Check if there is a similar item in the cart with the same options and instructions
+        const existingCartItemIndex = currentCartItems.findIndex((cartItem) => (
+            cartItem.itemID === item.itemID &&
+            JSON.stringify(cartItem.options) === JSON.stringify(selectedOptions) &&
+            cartItem.instructions === userPreferences
+        ));
+        
+        if (existingCartItemIndex !== -1) {
+            // If an existing item is found, update its quantity
+            currentCartItems[existingCartItemIndex].quantity += quantity;
+            currentCartItems[existingCartItemIndex].totalPrice = (currentCartItems[existingCartItemIndex].quantity * currentCartItems[existingCartItemIndex].price).toFixed(2);
+        } else {
+            // If no existing item is found, add a new one
+            const newCartItem = {
+                'categorieID': item.categorieID,
+                'itemID': item.itemID,
+                'quantity': quantity,
+                'instructions': userPreferences,
+                'totalPrice': cost,
+                'options': selectedOptions,
+                'price': cost / quantity,
+                'name': selectedItem.name,
+                'ogPrice': item.price,
+                'cartID': uuidv4(),
+                'img': 'https://www.thesprucepets.com/thmb/AyzHgPQM_X8OKhXEd8XTVIa-UT0=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-145577979-d97e955b5d8043fd96747447451f78b7.jpg'
             };
-            const updatedCartItemsJSON = JSON.stringify(currentCartItems);
-            localStorage.setItem('cart', updatedCartItemsJSON); 
+            currentCartItems.push(newCartItem);
         }
-        else {
-        const newCartItem = {
-            'categorieID': item.categorieID,
-            'itemID': item.itemID,
-            'quantity': quantity,
-            'instructions': userPreferences,
-            'totalPrice': cost,
-            'options': selectedOptions,
-            'price': cost/quantity,
-            'name': selectedItem.name,
-            'ogPrice': item.price,
-            'cartID': uuidv4(),
-            'img': 'https://www.thesprucepets.com/thmb/AyzHgPQM_X8OKhXEd8XTVIa-UT0=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-145577979-d97e955b5d8043fd96747447451f78b7.jpg'
-        };
-        currentCartItems.push(newCartItem);
-     
+        
         const updatedCartItemsJSON = JSON.stringify(currentCartItems); 
         localStorage.setItem('cart', updatedCartItemsJSON); 
-        
-        }
         resetState();
         onClose();
     }

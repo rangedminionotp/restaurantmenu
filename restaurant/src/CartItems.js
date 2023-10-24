@@ -5,8 +5,9 @@ import { IconButton } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import AddToCartDialog from './AddToCartDialog';
-import DeleteIcon from '@mui/icons-material/Delete';
-import DeleteItemDialog from "./DeleteItemDialog";
+import DeleteIcon from '@mui/icons-material/Delete'; 
+import { handleDeleteItem } from './AddToCartDialog'; // Import the handleDeleteItem function
+
 function CartItems() {
     const { cartItems, setCartItems } = React.useContext(CartItemContext);
     const { menuData, setIsDialogOpen, setSelectedItem, setSelectedOptions, setCartState } = React.useContext(SharedContext); 
@@ -29,6 +30,17 @@ function CartItems() {
         setIsDialogOpen(false);
         setSelectedItem(null);   
     }
+ 
+
+    const handleDelete = (itemData) => {
+        // Use the imported handleDeleteItem function
+        handleDeleteItem(itemData, () => {
+            // Callback function to update your cart data if needed
+            // For example, you may want to remove the item from your cartItems state
+            const updatedCartItems = cartItems.filter(item => item.cartID !== itemData.cartID);
+            updateCart(updatedCartItems);
+        }, handleClose);
+    };
 
     if (!menuData || !menuData.categories) {
         return <div className="menu">Loading...</div>;
@@ -80,7 +92,7 @@ function CartItems() {
                             </div>
                             <div className="cart-item-quantity">
                             <IconButton>
-                                {itemData.quantity !== 1 ? <RemoveCircleOutlineIcon onClick={() => decreaseQuantity(itemData)}/> : <DeleteIcon />}
+                                {itemData.quantity !== 1 ? <RemoveCircleOutlineIcon onClick={() => decreaseQuantity(itemData)}/> : <DeleteIcon onClick={() => handleDelete(itemData)} />}
                             </IconButton>
                             <div className="cart-item-quantity-number">quantity: {itemData.quantity}</div>
                             <IconButton onClick={() => increaseQuantity(itemData)}>

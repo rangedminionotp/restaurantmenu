@@ -11,8 +11,12 @@ const AuthenticatedRoute = () => {
 
 function App() {
   const [menuData, setMenuData] = useState([]); 
-  const [isDialogOpen, setIsDialogOpen] = useState(false); // Unconditionally set the state
-  const [selectedItem, setSelectedItem] = useState(null); // Unconditionally set the state
+  const [isDialogOpen, setIsDialogOpen] = useState(false);  
+  const [selectedItem, setSelectedItem] = useState(null);  
+  const [selectedOptions, setSelectedOptions] = useState({}); 
+  // Keep track if user is adding or editing
+  const [cartState, setCartState] = useState('add'); 
+
   useEffect(() => {
     // Fetch the JSON data from the server
     fetch("http://localhost:3001", { method: "GET" })
@@ -27,7 +31,7 @@ function App() {
   }, []);
 
   return (
-    <SharedContext.Provider value = {{menuData, setMenuData, isDialogOpen, setIsDialogOpen, selectedItem, setSelectedItem}}>
+    <SharedContext.Provider value = {{menuData, setMenuData, isDialogOpen, setIsDialogOpen, selectedItem, setSelectedItem, selectedOptions, setSelectedOptions, cartState, setCartState}}>
       <BrowserRouter> 
         <Routes>
           <Route path='/' exact element={

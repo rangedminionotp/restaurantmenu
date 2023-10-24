@@ -8,12 +8,20 @@ import AddToCartDialog from './AddToCartDialog';
 
 function CartItems() {
     const { cartItems, setCartItems } = React.useContext(CartItemContext);
-    const { menuData, setIsDialogOpen, setSelectedItem } = React.useContext(SharedContext); 
+    const { menuData, setIsDialogOpen, setSelectedItem, setSelectedOptions, setCartState } = React.useContext(SharedContext); 
+    
+    React.useEffect(() => {
+        const storedCartItems = localStorage.getItem('cart');
+        const currentCartItems = storedCartItems ? JSON.parse(storedCartItems) : [];
+     
+        updateCart(currentCartItems);
+    }, []);
 
-    const showAddToCartDialog = (item) => {
-        console.log(item)
+    const showAddToCartDialog = (item) => { 
         setSelectedItem(item);
         setIsDialogOpen(true);
+        setSelectedOptions(item.options)
+        setCartState('edit')
     };
 
     const handleClose = () => {
@@ -28,7 +36,7 @@ function CartItems() {
     const increaseQuantity = (itemData) => {
         const updatedCartItems = cartItems.map((item) => {
             if (
-                item.itemID === itemData.itemID  && item.instructions === itemData.instructions && item.options === itemData.options
+                item.cartID === itemData.cartID
             ) {
                 item.quantity += 1;
                 item.totalPrice = (item.quantity * item.price).toFixed(2);
@@ -41,7 +49,7 @@ function CartItems() {
     const decreaseQuantity = (itemData) => {
         const updatedCartItems = cartItems.map((item) => { 
             if (
-                item.itemID === itemData.itemID && item.instructions === itemData.instructions && item.options === itemData.options
+                item.cartID === itemData.cartID
             ) {
                 if (item.quantity > 1) {
                     item.quantity -= 1;
@@ -89,7 +97,7 @@ function CartItems() {
                 );
             })} 
             <AddToCartDialog 
-                onClose={handleClose}
+                onClose={handleClose} 
             />
         </div>
     );

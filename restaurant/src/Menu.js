@@ -42,7 +42,7 @@ function Menu() {
                                             <div className="item-details">
                                                 <h3 className='item-name'>{item.name}</h3>
                                                 <p className='item-description'>{item.description}</p>
-                                                <p className='item-price'>${item.price.toFixed(2)}</p>
+                                                <p className='item-price'>${Number(item.price).toFixed(2)}</p> 
                                             <button
                                                 className='add-to-cart-button'
                                                 onClick={() => handleAdd(item)} // Open the dialog

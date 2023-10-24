@@ -22,22 +22,21 @@ function AddToCartDialog({ onClose }) {
     const [selectedOptions, setSelectedOptions] = useState({}); 
     
     useEffect(() => {
-        // Check if selectedItem is not null
-        if (selectedItem) {
-            // Calculate the cost based on the selected options
-            console.log(selectedItem) 
-            setIsAgreeDisabled(!areAllRequiredChoicesChecked());   
+        if (selectedItem && menuData && menuData.options) {
             // Calculate the cost based on the selected options and quantity
-            let newCost = selectedItem.ogPrice ? selectedItem.ogPrice : selectedItem;
+            let newCost = selectedItem.price;
     
             for (const key of Object.keys(selectedOptions)) {
                 const selectedValue = selectedOptions[key];
-                const additionalCost = menuData.options[key].values[selectedValue];
-                newCost += additionalCost;
+                const additionalCost = menuData.options[key].values[selectedValue]; 
+                newCost = parseFloat(additionalCost) + parseFloat(newCost); 
             }
     
             // Set the new cost taking into account the quantity
             setCost((newCost * quantity).toFixed(2));
+    
+            // Check if all required choices are checked
+            setIsAgreeDisabled(!areAllRequiredChoicesChecked());
         }
     }, [selectedOptions, selectedItem, menuData, quantity]);
 
@@ -51,9 +50,7 @@ function AddToCartDialog({ onClose }) {
     };
 
     const handleOptionChange = (optionKey, value) => {
-        // Update the selected options with the new value
-        console.log(optionKey)
-        console.log(value)
+        // Update the selected options with the new value 
         setSelectedOptions({
             ...selectedOptions,
             [optionKey]: value,
@@ -148,7 +145,7 @@ function AddToCartDialog({ onClose }) {
                                     control={<Radio />}
                                     label={
                                         menuData.options[optionKey].values[value] > 0
-                                            ? `${value} +$${menuData.options[optionKey].values[value].toFixed(2)}`
+                                            ? `${value} +$${Number(menuData.options[optionKey].values[value])}`
                                             : value
                                     }
                                 />

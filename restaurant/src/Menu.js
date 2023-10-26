@@ -4,7 +4,7 @@ import AddToCartDialog from './AddToCartDialog'; // Import the dialog component
 import SharedContext from "./utility/context";
 function Menu() {
     const { menuData, setIsDialogOpen, setSelectedItem} = React.useContext(SharedContext);
-  
+    
     if (!menuData || !menuData.categories) {
         return <div className="menu">Loading...</div>;
     }

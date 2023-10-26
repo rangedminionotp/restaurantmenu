@@ -8,9 +8,8 @@ import AddToCartDialog from './AddToCartDialog';
 import DeleteIcon from '@mui/icons-material/Delete'; 
 import { handleDeleteItem } from './AddToCartDialog'; // Import the handleDeleteItem function
 
-function CartItems() {
-    const { cartItems, setCartItems } = React.useContext(CartItemContext);
-    const { menuData, setIsDialogOpen, setSelectedItem, setSelectedOptions, setCartState } = React.useContext(SharedContext); 
+function CartItems() { 
+    const { menuData, setIsDialogOpen, setSelectedItem, setSelectedOptions, setCartState, cartItems, setCartItems } = React.useContext(SharedContext); 
     
     React.useEffect(() => {
         const storedCartItems = localStorage.getItem('cart');
@@ -98,13 +97,14 @@ function CartItems() {
                             <IconButton onClick={() => increaseQuantity(itemData)}>
                                 <AddCircleOutlineIcon />
                             </IconButton>
-                        </div> 
+                        </div>  
                         {Object.keys(itemData.options).map((optionKey) => (
                             <div>{menuData.options[optionKey].name}: {`${itemData.options[optionKey]}`}
                             
                             </div>
                         ))}
                         <button onClick={()=>showAddToCartDialog(itemData)} className='cart-item-options-editbtn'>Edit</button>
+                        <button onClick={() => handleDelete(itemData)} className='cart-item-options-deletebtn'>Remove Item</button>
                         <div className="cart-item-preferences">Preferences: {itemData.instructions}</div>
                     </div>
                 );

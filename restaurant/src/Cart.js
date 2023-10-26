@@ -2,11 +2,9 @@ import React from "react";
 import TopBar from "./TopBar";
 import SharedContext from './utility/context';
 import './Cart.css';
-import CartItems from "./CartItems";
-import CartItemContext from "./utility/CartItemContext"; 
+import CartItems from "./CartItems"; 
 function Cart() {
-    const [cartItems, setCartItems] = React.useState([]);
-    const { menuData } = React.useContext(SharedContext);
+    const { menuData , cartItems, setCartItems} = React.useContext(SharedContext);
 
     React.useEffect(() => {
         // Fetch the cart items from localStorage 
@@ -46,8 +44,7 @@ function Cart() {
         return getTax() + getSubtotal();
     }
 
-    return (
-        <CartItemContext.Provider value={{ cartItems, setCartItems }}>
+    return ( 
         <div id='cart'>
             <TopBar />  
             <CartItems /> 
@@ -62,10 +59,8 @@ function Cart() {
                 <input type="text" placeholder="Name" />
                 <input type="tel" placeholder="Phone Number" />
                 <button onClick={submitOrder}>Send Order</button>
-            </div>
-
-        </div>
-        </CartItemContext.Provider>
+            </div> 
+        </div> 
     )
 }
 

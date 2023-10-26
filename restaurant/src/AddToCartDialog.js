@@ -45,12 +45,12 @@ function handleDeleteItem(selectedItem, resetState, onClose) {
 }
 
 function AddToCartDialog({ onClose }) {
-  const { isDialogOpen, selectedItem, menuData, selectedOptions, setSelectedOptions, cartState, setCartState, setDeleteDialogOpen} = React.useContext(SharedContext);
+  const { isDialogOpen, selectedItem, menuData, selectedOptions, setSelectedOptions, cartState, setCartState, setDeleteDialogOpen, setCartItems} = React.useContext(SharedContext);
   const [isAgreeDisabled, setIsAgreeDisabled] = useState(true);
   const [cost, setCost] = useState(0);
-  const [quantity, setQuantity] = useState(1);
-  const [userPreferences, setUserPreferences] = useState(''); 
-  
+  const [quantity, setQuantity] = useState(selectedItem ? selectedItem.quantity : 1);
+  const [userPreferences, setUserPreferences] = useState('');  
+
   const handleClickOpen = () => {
     setDeleteDialogOpen(true);
   };
@@ -58,24 +58,23 @@ function AddToCartDialog({ onClose }) {
   const handleClose = () => {
     setDeleteDialogOpen(false);
   };
-  useEffect(() => {
+  useEffect(() => { 
     if (selectedItem && menuData && menuData.options) {
-      let newCost = selectedItem.price;
-
+      let newCost = selectedItem.price; 
       for (const key of Object.keys(selectedOptions)) {
         const selectedValue = selectedOptions[key];
         const additionalCost = menuData.options[key].values[selectedValue];
         newCost = parseFloat(additionalCost) + parseFloat(newCost);
       }
-
+  
       // Adjusted: Set the new cost taking into account the quantity
       newCost = (newCost * quantity).toFixed(2);
       setCost(newCost);
-
+  
       // Check if all required choices are checked
       setIsAgreeDisabled(!areAllRequiredChoicesChecked());
     }
-  }, [selectedOptions, selectedItem, menuData, quantity]);
+  }, [selectedItem, selectedOptions, menuData, quantity]);
 
   // Function to reset all state variables
   const resetState = () => {
@@ -94,13 +93,13 @@ function AddToCartDialog({ onClose }) {
     });
   };
 
-  const increaseQuantity = () => {
-    setQuantity(quantity + 1);
+  const increaseQuantity = () => {  
+    setQuantity(quantity + 1); 
   };
-
+  
   const decreaseQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
+    if (quantity > 1) {  
+      setQuantity(quantity - 1);  
     }
   };
 
@@ -186,11 +185,12 @@ function AddToCartDialog({ onClose }) {
       const updatedCartItemsJSON = JSON.stringify(currentCartItems);
       localStorage.setItem('cart', updatedCartItemsJSON);
     }
-    
+    setQuantity(quantity);
+    setCartItems(currentCartItems);
     resetState();
     onClose();
   };
-
+ 
   if (selectedItem && menuData && menuData.options) {
     return (
       <Dialog
@@ -256,7 +256,7 @@ function AddToCartDialog({ onClose }) {
               <RemoveCircleOutlineIcon onClick={decreaseQuantity} />
             </IconButton>
           )}
-          {cartState === 'add' ? quantity : selectedItem.quantity}
+           {cartState === 'add' ? quantity : selectedItem.quantity}
           <IconButton>
             <AddCircleOutlineIcon onClick={increaseQuantity} />
           </IconButton>

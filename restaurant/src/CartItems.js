@@ -9,7 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { handleDeleteItem } from './AddToCartDialog'; // Import the handleDeleteItem function
 
 function CartItems() { 
-    const { menuData, setIsDialogOpen, setSelectedItem, setSelectedOptions, setCartState, cartItems, setCartItems } = React.useContext(SharedContext); 
+    const { menuData, setIsDialogOpen, setSelectedItem, setSelectedOptions, setCartState, cartItems, setCartItems, quantity, setQuantity } = React.useContext(SharedContext); 
     
     React.useEffect(() => {
         const storedCartItems = localStorage.getItem('cart');
@@ -20,9 +20,10 @@ function CartItems() {
 
     const showAddToCartDialog = (item) => { 
         setSelectedItem(item);
+        setQuantity(item.quantity);
         setIsDialogOpen(true);
-        setSelectedOptions(item.options)
-        setCartState('edit')
+        setSelectedOptions(item.options);
+        setCartState('edit');
     };
 
     const handleClose = () => {

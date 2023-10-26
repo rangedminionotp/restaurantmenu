@@ -45,10 +45,9 @@ function handleDeleteItem(selectedItem, resetState, onClose) {
 }
 
 function AddToCartDialog({ onClose }) {
-  const { isDialogOpen, selectedItem, menuData, selectedOptions, setSelectedOptions, cartState, setCartState, setDeleteDialogOpen, setCartItems} = React.useContext(SharedContext);
+  const { isDialogOpen, selectedItem, menuData, selectedOptions, setSelectedOptions, cartState, setCartState, setDeleteDialogOpen, setCartItems, quantity, setQuantity} = React.useContext(SharedContext);
   const [isAgreeDisabled, setIsAgreeDisabled] = useState(true);
   const [cost, setCost] = useState(0);
-  const [quantity, setQuantity] = useState(selectedItem ? selectedItem.quantity : 1);
   const [userPreferences, setUserPreferences] = useState('');  
 
   const handleClickOpen = () => {
@@ -177,10 +176,9 @@ function AddToCartDialog({ onClose }) {
         quantity: quantity,
         instructions: userPreferences,
         totalPrice: cost,
-        options: selectedOptions,
-        price: cost / quantity,
+        options: selectedOptions
       };
-
+      
       // Store the updated items back in localStorage
       const updatedCartItemsJSON = JSON.stringify(currentCartItems);
       localStorage.setItem('cart', updatedCartItemsJSON);
@@ -209,7 +207,7 @@ function AddToCartDialog({ onClose }) {
             <img className='item-img'
               src='https://www.thesprucepets.com/thmb/AyzHgPQM_X8OKhXEd8XTVIa-UT0=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-145577979-d97e955b5d8043fd96747447451f78b7.jpg' />
             <p className='item-description'>{selectedItem.description}</p>
-            <p className='item-price'>${cartState === 'add' ? cost : selectedItem.totalPrice}</p>
+            <p className='item-price'>${cost}</p>
           </DialogContentText>
           <Divider />
           {Object.keys(menuData.options).map((optionKey) => (
@@ -247,7 +245,7 @@ function AddToCartDialog({ onClose }) {
           />
         </DialogContent>
         <DialogActions className='dialog-actions'>
-          {cartState === 'edit' ? ( // Only show DeleteIcon when in 'edit' mode
+          {cartState === 'edit' && quantity == 1 ? ( // Only show DeleteIcon when in 'edit' mode
             <IconButton>
               <DeleteIcon onClick={handleClickOpen} />
             </IconButton>
@@ -274,7 +272,7 @@ function AddToCartDialog({ onClose }) {
             }}
             disabled={isAgreeDisabled}
           >
-          {cartState === 'add' ? `Add To Cart - $${cost}` : `Update Cart - $${selectedItem.totalPrice}`}
+          {cartState === 'add' ? `Add To Cart - $${cost}` : `Update Cart - $${cost}`}
         </button>
         </DialogActions>
         <DeleteItemDialog handleClose={handleClose} handleDelete={() => handleDeleteItem(selectedItem, resetState, onClose)} />

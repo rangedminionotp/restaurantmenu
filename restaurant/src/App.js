@@ -14,6 +14,7 @@ function App() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);  
   const [selectedItem, setSelectedItem] = useState(null);  
   const [selectedOptions, setSelectedOptions] = useState({}); 
+  const [quantity, setQuantity] = useState(1);
   // Keep track if user is adding or editing
   const [cartState, setCartState] = useState('add'); 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);  
@@ -32,7 +33,7 @@ function App() {
   }, []);
 
   return (
-    <SharedContext.Provider value = {{menuData, setMenuData, isDialogOpen, setIsDialogOpen, selectedItem, setSelectedItem, selectedOptions, setSelectedOptions, cartState, setCartState, deleteDialogOpen, setDeleteDialogOpen, cartItems, setCartItems}}>
+    <SharedContext.Provider value = {{menuData, setMenuData, isDialogOpen, setIsDialogOpen, selectedItem, setSelectedItem, selectedOptions, setSelectedOptions, cartState, setCartState, deleteDialogOpen, setDeleteDialogOpen, cartItems, setCartItems, quantity, setQuantity}}>
       <BrowserRouter> 
         <Routes>
           <Route path='/' exact element={

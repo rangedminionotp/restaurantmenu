@@ -9,6 +9,7 @@ function TopBar() {
     const redirectCart = () => {
         redirect('/cart');
     } 
+ 
     return (
         <div id="topbar">
             <nav>

@@ -14,8 +14,15 @@ function Info() {
                 <div className='restInfo'>
                     <div>Chinese Cuisine</div>
                     <div>Dine-In · Take-Out · Delivery</div>
-                    <div><IconButton><a href='https://www.google.com/maps/place/35041+Fremont+Blvd,+Fremont,+CA+94536/@37.5721707,-122.0277051,15z/data=!4m6!3m5!1s0x808fbfcead8ff347:0x5f93360ba866c1a1!8m2!3d37.5703212!4d-122.0319537!16s%2Fg%2F11bw4c94s4?entry=ttu'><LocationOnIcon/></a></IconButton>35041 Fremont Blvd, Fremont, CA 94536</div>
-                    <div><IconButton><a href="tel:5015651717"><PhoneIcon /></a></IconButton>Phone: (501)565-1717</div>
+                    <div>
+                        <IconButton>
+                            <a href='https://www.google.com/maps/place/35041+Fremont+Blvd,+Fremont,+CA+94536/@37.5721707,-122.0277051,15z/data=!4m6!3m5!1s0x808fbfcead8ff347:0x5f93360ba866c1a1!8m2!3d37.5703212!4d-122.0319537!16s%2Fg%2F11bw4c94s4?entry=ttu' target="_blank">
+                            <LocationOnIcon/>
+                            </a>
+                        </IconButton>
+                        35041 Fremont Blvd, Fremont, CA 94536
+                    </div>                    
+            <div><IconButton><a href="tel:5015651717"><PhoneIcon /></a></IconButton>Phone: (501)565-1717</div>
                 </div>
             </div>
 

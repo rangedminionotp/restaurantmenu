@@ -50,7 +50,7 @@ function AddToCartDialog({ onClose }) {
   const [cost, setCost] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [userPreferences, setUserPreferences] = useState(''); 
-
+  
   const handleClickOpen = () => {
     setDeleteDialogOpen(true);
   };
@@ -58,19 +58,20 @@ function AddToCartDialog({ onClose }) {
   const handleClose = () => {
     setDeleteDialogOpen(false);
   };
-
   useEffect(() => {
     if (selectedItem && menuData && menuData.options) {
-      // Calculate the cost based on the selected options and quantity
-      let newCost = selectedItem.price;  
-      
+      let newCost = selectedItem.price;
+
       for (const key of Object.keys(selectedOptions)) {
         const selectedValue = selectedOptions[key];
         const additionalCost = menuData.options[key].values[selectedValue];
         newCost = parseFloat(additionalCost) + parseFloat(newCost);
-      } 
-      // Set the new cost taking into account the quantity 
-      setCost((newCost * quantity).toFixed(2)); 
+      }
+
+      // Adjusted: Set the new cost taking into account the quantity
+      newCost = (newCost * quantity).toFixed(2);
+      setCost(newCost);
+
       // Check if all required choices are checked
       setIsAgreeDisabled(!areAllRequiredChoicesChecked());
     }
@@ -208,7 +209,7 @@ function AddToCartDialog({ onClose }) {
             <img className='item-img'
               src='https://www.thesprucepets.com/thmb/AyzHgPQM_X8OKhXEd8XTVIa-UT0=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-145577979-d97e955b5d8043fd96747447451f78b7.jpg' />
             <p className='item-description'>{selectedItem.description}</p>
-            <p className='item-price'>{cartState === 'add' ? '$' + cost : '$' + selectedItem.totalPrice}</p>
+            <p className='item-price'>${cartState === 'add' ? cost : selectedItem.totalPrice}</p>
           </DialogContentText>
           <Divider />
           {Object.keys(menuData.options).map((optionKey) => (
@@ -262,11 +263,19 @@ function AddToCartDialog({ onClose }) {
           <button onClick={() => handleCancel()} autoFocus>
             Cancel
           </button>
-          <button className='add-to-cart-btn'
-            onClick={() => cartState == 'add' ? handleAddCart(selectedItem) : handleEditCart(selectedItem)}
-            disabled={isAgreeDisabled}>
-            Add To Cart - ${cartState === 'add' ? '$' + cost : '$' + selectedItem.totalPrice}
-          </button>
+          <button
+            className='add-to-cart-btn'
+            onClick={() => {
+              if (cartState === 'add') {
+                handleAddCart(selectedItem);
+              } else if (cartState === 'edit') {
+                handleEditCart(selectedItem);
+              }
+            }}
+            disabled={isAgreeDisabled}
+          >
+          {cartState === 'add' ? `Add To Cart - $${cost}` : `Update Cart - $${selectedItem.totalPrice}`}
+        </button>
         </DialogActions>
         <DeleteItemDialog handleClose={handleClose} handleDelete={() => handleDeleteItem(selectedItem, resetState, onClose)} />
       </Dialog>

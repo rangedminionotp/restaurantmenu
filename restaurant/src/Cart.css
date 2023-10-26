@@ -107,6 +107,11 @@
   margin-bottom: 10px;
 }
 
+.cart-total-items {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
 .payment-instructions {
   font-size: 1.5em;
   color: #333; /* Change the color to your preference */

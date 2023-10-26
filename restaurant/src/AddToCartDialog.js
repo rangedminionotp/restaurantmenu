@@ -156,7 +156,7 @@ function AddToCartDialog({ onClose }) {
     }
 
     const updatedCartItemsJSON = JSON.stringify(currentCartItems);
-    localStorage.setItem('cart', updatedCartItemsJSON);
+    localStorage.setItem('cart', updatedCartItemsJSON); 
     resetState();
     onClose();
   };

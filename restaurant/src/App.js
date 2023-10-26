@@ -18,7 +18,7 @@ function App() {
   // Keep track if user is adding or editing
   const [cartState, setCartState] = useState('add'); 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);  
-  const [cartItems, setCartItems] = React.useState([]);
+  const [cartItems, setCartItems] = React.useState([]); 
   useEffect(() => {
     // Fetch the JSON data from the server
     fetch("http://localhost:3001", { method: "GET" })

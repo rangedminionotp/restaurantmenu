@@ -50,8 +50,18 @@ function Cart() {
                 subtotal += parseFloat(totalItemPrice);
             }
         }
-        return subtotal;
+        return subtotal; 
+    }
 
+    const getTotalItems = () => {
+        var subtotal = 0;
+        for (const itemData of cartItems) {  
+            if (itemData) { 
+                var quantity = itemData.quantity;  
+                subtotal += parseFloat(quantity);
+            }
+        }
+        return subtotal; 
     }
 
     const getTax = () => {
@@ -70,6 +80,7 @@ function Cart() {
             <div className="cart-subtotal">Subtotal: ${getSubtotal().toFixed(2)}</div>
             <div className="cart-tax">Tax: ${getTax().toFixed(2)}</div>
             <div className="cart-total">Total: ${getTotal().toFixed(2)}</div>
+            <div className="cart-total-items">Total Items: {getTotalItems()}</div>
             <h3 className="payment-instructions">Please pay in person</h3>
           </div>
       

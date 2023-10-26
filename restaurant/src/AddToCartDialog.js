@@ -256,7 +256,7 @@ function AddToCartDialog({ onClose }) {
               <RemoveCircleOutlineIcon onClick={decreaseQuantity} />
             </IconButton>
           )}
-           {cartState === 'add' ? quantity : selectedItem.quantity}
+           {quantity}
           <IconButton>
             <AddCircleOutlineIcon onClick={increaseQuantity} />
           </IconButton>

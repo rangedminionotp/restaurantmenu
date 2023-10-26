@@ -81,7 +81,7 @@ function Cart() {
             <div className="cart-tax">Tax: ${getTax().toFixed(2)}</div>
             <div className="cart-total">Total: ${getTotal().toFixed(2)}</div>
             <div className="cart-total-items">Total Items: {getTotalItems()}</div>
-            <h3 className="payment-instructions">Please pay in person</h3>
+            <h3 className="payment-instructions">Please pay in person, we take card and cash.</h3>
           </div>
       
           <div className="order-details">

@@ -62,17 +62,15 @@ function AddToCartDialog({ onClose }) {
   useEffect(() => {
     if (selectedItem && menuData && menuData.options) {
       // Calculate the cost based on the selected options and quantity
-      let newCost = selectedItem.price;
-
+      let newCost = selectedItem.price;  
+      
       for (const key of Object.keys(selectedOptions)) {
         const selectedValue = selectedOptions[key];
         const additionalCost = menuData.options[key].values[selectedValue];
         newCost = parseFloat(additionalCost) + parseFloat(newCost);
-      }
-
-      // Set the new cost taking into account the quantity
-      setCost((newCost * quantity).toFixed(2));
-
+      } 
+      // Set the new cost taking into account the quantity 
+      setCost((newCost * quantity).toFixed(2)); 
       // Check if all required choices are checked
       setIsAgreeDisabled(!areAllRequiredChoicesChecked());
     }
@@ -149,9 +147,9 @@ function AddToCartDialog({ onClose }) {
         'instructions': userPreferences,
         'totalPrice': cost,
         'options': selectedOptions,
-        'price': cost / quantity,
+        'singlePrice': cost / quantity,
         'name': selectedItem.name,
-        'ogPrice': item.price,
+        'price': item.price,
         'cartID': uuidv4(),
         'img': 'https://www.thesprucepets.com/thmb/AyzHgPQM_X8OKhXEd8XTVIa-UT0=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-145577979-d97e955b5d8043fd96747447451f78b7.jpg',
       };
@@ -187,7 +185,7 @@ function AddToCartDialog({ onClose }) {
       const updatedCartItemsJSON = JSON.stringify(currentCartItems);
       localStorage.setItem('cart', updatedCartItemsJSON);
     }
-
+    
     resetState();
     onClose();
   };
@@ -210,7 +208,7 @@ function AddToCartDialog({ onClose }) {
             <img className='item-img'
               src='https://www.thesprucepets.com/thmb/AyzHgPQM_X8OKhXEd8XTVIa-UT0=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/GettyImages-145577979-d97e955b5d8043fd96747447451f78b7.jpg' />
             <p className='item-description'>{selectedItem.description}</p>
-            <p className='item-price'>${cost}</p>
+            <p className='item-price'>{cartState === 'add' ? '$' + cost : '$' + selectedItem.totalPrice}</p>
           </DialogContentText>
           <Divider />
           {Object.keys(menuData.options).map((optionKey) => (
@@ -257,7 +255,7 @@ function AddToCartDialog({ onClose }) {
               <RemoveCircleOutlineIcon onClick={decreaseQuantity} />
             </IconButton>
           )}
-          {quantity}
+          {cartState === 'add' ? quantity : selectedItem.quantity}
           <IconButton>
             <AddCircleOutlineIcon onClick={increaseQuantity} />
           </IconButton>
@@ -267,7 +265,7 @@ function AddToCartDialog({ onClose }) {
           <button className='add-to-cart-btn'
             onClick={() => cartState == 'add' ? handleAddCart(selectedItem) : handleEditCart(selectedItem)}
             disabled={isAgreeDisabled}>
-            Add To Cart - ${cost}
+            Add To Cart - ${cartState === 'add' ? '$' + cost : '$' + selectedItem.totalPrice}
           </button>
         </DialogActions>
         <DeleteItemDialog handleClose={handleClose} handleDelete={() => handleDeleteItem(selectedItem, resetState, onClose)} />

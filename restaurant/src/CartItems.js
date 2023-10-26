@@ -52,7 +52,7 @@ function CartItems() {
                 item.cartID === itemData.cartID
             ) {
                 item.quantity += 1;
-                item.totalPrice = (item.quantity * item.price).toFixed(2);
+                item.totalPrice = (item.quantity * item.singlePrice).toFixed(2);
             }
             return item;
         });
@@ -66,7 +66,7 @@ function CartItems() {
             ) {
                 if (item.quantity > 1) {
                     item.quantity -= 1;
-                    item.totalPrice = (item.quantity * item.price).toFixed(2);
+                    item.totalPrice = (item.quantity * item.singlePrice).toFixed(2);
                 }
             }
             return item;

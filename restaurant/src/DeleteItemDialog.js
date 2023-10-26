@@ -21,16 +21,13 @@ function DeleteItemDialog( {handleClose, handleDelete} ){
         <DialogTitle id="alert-dialog-title">
           {"Are you sure to delete this item?"}
         </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description"> 
-          "maybe include details of item placeholder"
-          </DialogContentText>
+        <DialogContent> 
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDelete}>Yes</Button>
-          <Button onClick={handleClose} autoFocus>
+          <button onClick={handleDelete}>Yes</button>
+          <button onClick={handleClose} autoFocus>
             Cancel
-          </Button>
+          </button>
         </DialogActions>
       </Dialog>
       </div>

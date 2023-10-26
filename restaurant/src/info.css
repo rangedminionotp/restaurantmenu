@@ -1,23 +1,33 @@
 #info {
-  background-color: #f8f8f8;
+  background-image: url('https://media.discordapp.net/attachments/368534832197664769/1125317779529146408/IMG_8726.jpg?width=894&height=671'); /* Set the background image */
+  background-size: cover; /* Cover the entire container */
+  background-repeat: no-repeat; /* Prevent repeating the image */
+  background-position: center; /* Center the background image */
+  padding: 20px;
   border: 1px solid #e0e0e0;
-  border-radius: 8px;
   padding: 20px;
   max-width: inherit;
   margin: 0 auto;
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+} 
+
+#about {
+  background-color: rgba(255, 255, 255, 0.85); /* Add a semi-transparent white background */
+  padding: 20px; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
 
 #restName {
-  font-size: 40px; 
+  font-size: 3em; 
   font-weight: bold;
   margin: 10px 0;
 }
 
 .restInfo {
   margin: 10px 0;
-  font-size: 20px; 
+  font-size: 1.4em; 
 }
 
 .restInfo > div {
@@ -26,20 +36,20 @@
 
 .restHours {
   background-color: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;  
+  border: 1px solid #e0e0e0; 
   padding: 20px; 
   margin-top: 20px;
+   border-radius: 8px;
 }
 
 #hourTitle {
-  font-size: 24px; 
+  font-size: 2em; 
   font-weight: bold;
   margin-bottom: 10px;
 }
 
 .restHours > div {
-  font-size: 20px; 
+  font-size: 1.3em; 
   margin: 10px 0; 
 }
 
@@ -48,5 +58,5 @@
 }
 
 #hours {
-  scroll-margin-top: 80px; 
+  scroll-margin-top: 65px; 
 }

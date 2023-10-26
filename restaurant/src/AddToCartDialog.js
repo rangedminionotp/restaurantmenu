@@ -69,7 +69,7 @@ function AddToCartDialog({ onClose }) {
       // Adjusted: Set the new cost taking into account the quantity
       newCost = (newCost * quantity).toFixed(2);
       setCost(newCost);
-  
+      setUserPreferences(selectedItem.instructions);
       // Check if all required choices are checked
       setIsAgreeDisabled(!areAllRequiredChoicesChecked());
     }
@@ -197,7 +197,7 @@ function AddToCartDialog({ onClose }) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         id="add-to-cart-dialogue"
-        sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 } }}
+        sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 500 } }}
       >
         <DialogTitle id="alert-dialog-title">
           {selectedItem.name}
@@ -220,11 +220,12 @@ function AddToCartDialog({ onClose }) {
                 {Object.keys(menuData.options[optionKey].values).map((value, index) => (
                   <div className='radio-button' key={index}>
                     <FormControlLabel
+                    className='additional-cost'
                       value={value}
                       control={<Radio />}
                       label={
                         menuData.options[optionKey].values[value] > 0
-                          ? `${value} +$${Number(menuData.options[optionKey].values[value])}`
+                          ? `${value} ${'\u00A0'} +$${Number(menuData.options[optionKey].values[value]).toFixed(2)}`
                           : value
                       }
                     />
@@ -254,11 +255,13 @@ function AddToCartDialog({ onClose }) {
               <RemoveCircleOutlineIcon onClick={decreaseQuantity} />
             </IconButton>
           )}
-           {quantity}
+          <div>{quantity}</div> 
           <IconButton>
             <AddCircleOutlineIcon onClick={increaseQuantity} />
           </IconButton>
-          <button onClick={() => handleCancel()} autoFocus>
+          <button 
+          className='cancel-btn'
+          onClick={() => handleCancel()} autoFocus>
             Cancel
           </button>
           <button

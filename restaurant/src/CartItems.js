@@ -85,28 +85,38 @@ function CartItems() {
                 return (
                     <div className='cart-item' key={index}>
                         <div className="cart-item-name">{itemData.name}</div>
-                        <div className="cart-item-price">price: ${itemData.totalPrice}</div>
-                        
-                            <div className="cart-item-img">
-                                <img className="cart-item-image" src={itemData.img} alt={itemData.name} />
-                            </div>
-                            <div className="cart-item-quantity">
+                        <div className="cart-item-price">${itemData.totalPrice}</div>
+                        <div className="cart-item-img">
+                            <img className="cart-item-image" src={itemData.img} alt={itemData.name} />
+                        </div>
+                        <div className="cart-item-quantity">
                             <IconButton>
-                                {itemData.quantity !== 1 ? <RemoveCircleOutlineIcon onClick={() => decreaseQuantity(itemData)}/> : <DeleteIcon onClick={() => handleDelete(itemData)} />}
+                                {itemData.quantity !== 1 ? (
+                                    <RemoveCircleOutlineIcon onClick={() => decreaseQuantity(itemData)} />
+                                ) : (
+                                    <DeleteIcon onClick={() => handleDelete(itemData)} />
+                                )}
                             </IconButton>
-                            <div className="cart-item-quantity-number">quantity: {itemData.quantity}</div>
+                            <div className="cart-item-quantity-number">{itemData.quantity}</div>
                             <IconButton onClick={() => increaseQuantity(itemData)}>
                                 <AddCircleOutlineIcon />
                             </IconButton>
-                        </div>  
+                        </div>
+                       <div className="cart-item-options" onClick={() => showAddToCartDialog(itemData)}>
                         {Object.keys(itemData.options).map((optionKey) => (
-                            <div>{menuData.options[optionKey].name}: {`${itemData.options[optionKey]}`}
+                            <div>
+                                <span className="cart-item-options-title">{menuData.options[optionKey].name}</span>
+                                <span className="cart-item-options-content">: {`${itemData.options[optionKey]}`}</span>
+                                </div>
                             
-                            </div>
                         ))}
-                        <button onClick={()=>showAddToCartDialog(itemData)} className='cart-item-options-editbtn'>Edit</button>
-                        <button onClick={() => handleDelete(itemData)} className='cart-item-options-deletebtn'>Remove Item</button>
-                        <div className="cart-item-preferences">Preferences: {itemData.instructions}</div>
+                        <div className="cart-item-preferences">
+                            <span className="cart-item-options-title">Preferences</span>
+                            <span className="cart-item-options-content">: {itemData.instructions}</span>
+                        </div>
+                        </div>
+                        <button onClick={() => showAddToCartDialog(itemData)} className='cart-item-options-editbtn'>Edit Options</button>
+                        <button onClick={() => handleDelete(itemData)} className='cart-item-options-deletebtn'>Remove Item</button> 
                     </div>
                 );
             })} 

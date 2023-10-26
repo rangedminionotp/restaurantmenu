@@ -62,24 +62,25 @@ function Cart() {
         return getTax() + getSubtotal();
     }
 
-    return ( 
+    return (
         <div id='cart'>
-            <TopBar />  
-            <CartItems /> 
-            <div className="order-summary">
-                <div>Subtotal: ${getSubtotal().toFixed(2)}</div>
-                <div>Tax: ${getTax().toFixed(2)}</div>
-                <div>Total: ${getTotal().toFixed(2)}</div>
-                <h3>Please pay in person</h3>
-            </div>
-
-            <div className="order-details">
-                <input type="text" placeholder="Name" />
-                <input type="tel" placeholder="Phone Number" />
-                <button onClick={submitOrder}>Send Order</button>
-            </div> 
-        </div> 
-    )
+          <TopBar />  
+          <CartItems /> 
+          <div className="order-summary">
+            <div className="cart-subtotal">Subtotal: ${getSubtotal().toFixed(2)}</div>
+            <div className="cart-tax">Tax: ${getTax().toFixed(2)}</div>
+            <div className="cart-total">Total: ${getTotal().toFixed(2)}</div>
+            <h3 className="payment-instructions">Please pay in person</h3>
+          </div>
+      
+          <div className="order-details">
+            <div><input className="order-input" type="text" placeholder="Name" /></div>
+            <div><input className="order-input" type="tel" placeholder="Phone Number" /></div>
+            <div><input className="order-input" type="text" placeholder="Email" /></div>
+            <button className="order-button" onClick={submitOrder}>Send Order</button>
+          </div> 
+        </div>
+      );
 }
 
 export default Cart;

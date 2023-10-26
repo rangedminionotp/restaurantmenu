@@ -8,6 +8,11 @@
   margin: 10px 0;
 }
 
+#alert-dialog-title{
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
 .item-price {
   font-size: 1.1em;
   font-weight: bold;
@@ -20,6 +25,7 @@
 
 .radio-group-label {
   font-weight: bold;
+  font-size: 1.1em;
 }
 
 .radio-button {
@@ -32,7 +38,7 @@
 }
  
 .user-preferences {
-  margin-top: 16px; /* Adjust the margin to your preference */
+  margin-top: 20px; /* Adjust the margin to your preference */
   font-size: 1.1em;
   font-weight: bold;
 }
@@ -43,3 +49,35 @@
   resize: none; /* Disable resizing */ 
   font-size: 1.1em;
 }
+
+.add-to-cart-btn {
+  background-color: #ff9900;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+.add-to-cart-btn:disabled {
+  background-color: #ccc; /* Disabled button color */
+  cursor: not-allowed;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #ffcc33;
+}
+
+.cancel-btn {
+  background-color: #fff;
+  color: #333;
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 10px;
+  transition: background-color 0.3s;
+}
+    

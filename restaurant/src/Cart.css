@@ -1,35 +1,140 @@
 .cart-container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  /* Add any other styling you want for the container */
+  gap: 10px; 
 }
 
-.cart-item {
-  /* Style for each individual cart item */
-  background-color: #f0f0f0;
+#cart {
+  background-color: #f8f8f8; 
+  border-radius: 8px; 
+  margin: 0 auto; 
+  
+}
+
+.cart-container {
+  display: flex;  
   padding: 10px;
+  background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
 
+.cart-item { 
+  align-items: center;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 5px; 
+}
+
 .cart-item-name {
+  font-size: 1.5em;
   font-weight: bold;
+  margin-bottom: 5px;
 }
 
 .cart-item-price {
-  color: green;
-}
-
-.cart-item-quantity {
-  color: blue;
-}
-
-.cart-item-options {
-  color: gray;
+  font-weight: bold;
 }
 
 .cart-item-image {
-  max-width: 100px;  
-  max-height: 100px;  
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.cart-item-quantity {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.cart-item-quantity-number {
+  font-weight: bold;
+  margin: 0 10px;
+}
+
+.cart-item-options {
+  margin: 5px 0;
+  background-color: #f8f8f8;
+  max-width: inherit;
+  cursor: pointer;
+}
+
+.cart-item-options:hover { 
+  background-color: #d7cece; 
+}
+
+.cart-item-options-title {
+  font-weight: bold;
+}
+
+.cart-item-options-editbtn,
+.cart-item-options-deletebtn {
+  background-color: #ff9900;
+  color: #fff;
+  padding: 10px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.cart-item-options-editbtn:hover,
+.cart-item-options-deletebtn:hover {
+  background-color: #ffcc33;
+}
+
+.cart-item-preferences {
+  margin: 5px 0;
+}
+
+.cart-subtotal {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.cart-tax {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.cart-total {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.payment-instructions {
+  font-size: 1.5em;
+  color: #333; /* Change the color to your preference */
+}
+
+.order-summary, .order-details{
+  margin: 5px 0;
+  padding: 10px;
+}
+.order-input {
+  width: inherit;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.order-button {
+  background-color: #ff9900;
+  color: #fff;
+  padding: 10px 20px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.order-button:hover {
+  background-color: #ffcc33;
 }

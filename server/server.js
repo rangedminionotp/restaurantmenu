@@ -84,38 +84,40 @@ app.post('/order', (req, res) => {
   var emailText = '';
 
   // convert items to a string
-  for(item of data) {
-    console.log(item)
+  for (item of data) {
+    console.log(item);
     if (!item.categorieID || !item.itemID) {
-      res.send(JSON.stringify({ error: "missing data" }))
-      return
+      res.send(JSON.stringify({ error: "missing data" }));
+      return;
     }
 
-    var itemName = allData.categories[item.categorieID].items[item.itemID].name
-    var itemPrice = allData.categories[item.categorieID].items[item.itemID].price
-    var itemInstructions = item.instructions
-    var itemQuantity = item.quantity
-    var itemOptions = item.options
+    var itemName = allData.categories[item.categorieID].items[item.itemID].name;
+    var itemPrice = allData.categories[item.categorieID].items[item.itemID].price;
+    var itemInstructions = item.instructions;
+    var itemQuantity = item.quantity;
+    var itemOptions = item.options;
 
-    var itemText = `${itemName} $${itemPrice} x${itemQuantity}\n`
+    var itemText = `${itemName} $${itemPrice} x${itemQuantity}\n`;
     if (itemInstructions) {
-      itemText += `Instructions: ${itemInstructions}\n`
+      itemText += `Instructions: ${itemInstructions}\n`;
     }
 
-    //add options
+    // Add options
     for (option in itemOptions) {
-      for(selection of itemOptions[option]) {
-        var name = allData.options[option].name
-        var price = allData.options[option].values[selection]
-        if (price == 0) price = "" // don't show $0
-        else price = `$${price}`
+      var optionName = allData.options[option].name;
+      var optionSelections = itemOptions[option];
+      var optionPrice = allData.options[option].values[optionSelections];
+      itemText += `${optionName}: ${optionSelections} $${optionPrice}`;
 
-        itemText += `${name}: ${selection} ${price}\n`
-      }
+      itemText = itemText.slice(0, -2); // Remove the trailing comma and space
+      itemText += '\n';
     }
 
-    emailText += itemText + '\n'
+    emailText += itemText + '\n';
   }
+
+  console.log(emailText);
+  
 
   //send email
   var mailOptions = {

@@ -22,6 +22,24 @@ function Cart() {
     
     const submitOrder = () => {
        
+        // Send the order to the server
+        fetch('http://localhost:3001/order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(cartItems)
+        }).then((response) => {
+            return response.json();
+        }).then((data) => {
+            console.log(data);
+            // Clear the cart
+            setCartItems([]);
+            localStorage.setItem('cart', '[]');
+        }).catch((error) => {
+            console.log(error);
+        });
+        
     }
 
     const getSubtotal = () => {

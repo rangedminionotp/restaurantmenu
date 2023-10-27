@@ -24,9 +24,7 @@ function Info() {
                     </div>                    
             <div><IconButton><a href="tel:5015651717"><PhoneIcon /></a></IconButton>Phone: (501)565-1717</div>
                 </div>
-            </div>
-
-            <div id="hours">
+                <div id="hours">
                 <div className="restHours">
                     <div id='hourTitle'>
                         <div><AccessTimeIcon /></div>
@@ -36,6 +34,9 @@ function Info() {
                     <div>Sunday: 12-8pm</div>
                 </div>
             </div>
+            </div>
+
+            
         </div>
     )
 }
